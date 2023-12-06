@@ -4,21 +4,25 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && mcss render \".next/**/*.html\"",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@master/css-renderer": "^2.0.0-beta.160",
+    "@master/css-server": "^2.0.0-beta.189",
+    "@master/css.react": "^2.0.0-beta.206",
+    "@master/normal.css": "^2.0.0-beta.206",
+    "next": "14.0.3",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.0.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.0.3"
+    "eslint-config-next": "14.0.3",
+    "typescript": "^5"
   }
 }
