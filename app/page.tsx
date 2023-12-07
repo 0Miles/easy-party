@@ -1,14 +1,13 @@
-import SwitchTheme from "@/compontents/switch-theme";
-
-
+import Calendar from '@/components/calendar'
+import Link from 'next/link'
 
 export default function Home() {
 
     return (
         <>
-            <h1 className="font:40 font:heavy italic m:50 text:center">Hello World</h1>
-
-            <SwitchTheme />
+            <div className="m:0|auto max-w:xl p:16">
+                <Link href="/new">建立活動</Link>
+            </div>
         </>
     )
 }

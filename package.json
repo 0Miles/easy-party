@@ -13,9 +13,13 @@
     "@master/css-server": "^2.0.0-beta.189",
     "@master/css.react": "^2.0.0-beta.206",
     "@master/normal.css": "^2.0.0-beta.206",
+    "date-fns": "^2.30.0",
+    "firebase": "^10.7.1",
+    "firebase-admin": "^11.11.1",
     "next": "14.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@types/node": "^20",
