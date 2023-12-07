@@ -6,10 +6,13 @@ import {
     signOut
 } from '@/lib/firebase/auth'
 import useUserSession from '@/lib/use-user-session'
+import { useTranslation } from '@/locales/locale'
 import Image from 'next/image'
 
-export default function Header({ initialUser }: any) {
+export default function Header({ initialUser, locale }: any) {
     const user = useUserSession(initialUser ?? false)
+
+    const { t } = useTranslation(locale)
 
     const handleSignOut = (event: any) => {
         event.preventDefault()
@@ -35,8 +38,11 @@ export default function Header({ initialUser }: any) {
                                     <img src={user.photoURL} alt={'avatar'} />
                                 </div>
                                 <div>
+                                    {user.displayName}
+                                </div>
+                                <div>
                                     <button onClick={handleSignOut}>
-                                        Sign Out
+                                        {t('Sign Out')}
                                     </button>
                                 </div>
                             </div>
@@ -44,7 +50,7 @@ export default function Header({ initialUser }: any) {
                     }
                     {
                         !user && user !== false && <button onClick={handleSignIn}>
-                            Sign In with Google
+                            {t('Sign In with Google')}
                         </button>
                     }
                     {

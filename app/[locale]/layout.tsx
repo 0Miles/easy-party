@@ -14,20 +14,23 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
     children,
+    params
 }: {
-    children: React.ReactNode
+    children: React.ReactNode,
+    params: any
 }) {
     const { currentUser } = await getAuthenticatedAppForUser()
-    
+    const { locale } = params
+
     return (
-        <html lang="en" suppressHydrationWarning style={process.env.NODE_ENV === 'development' ? { display: 'none' } : undefined}>
+        <html lang={locale} suppressHydrationWarning style={process.env.NODE_ENV === 'development' ? { display: 'none' } : undefined}>
             <body>
-                <CSSProvider config={config}>
-                    <ThemeProvider>
-                        <Header initialUser={currentUser?.toJSON()} />
+                <ThemeProvider>
+                    <CSSProvider config={config}>
+                        <Header initialUser={currentUser?.toJSON()} locale={locale} />
                         {children}
-                    </ThemeProvider>
-                </CSSProvider>
+                    </CSSProvider>
+                </ThemeProvider>
             </body>
         </html>
     )

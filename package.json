@@ -13,6 +13,8 @@
     "@master/css-server": "^2.0.0-beta.189",
     "@master/css.react": "^2.0.0-beta.206",
     "@master/normal.css": "^2.0.0-beta.206",
+    "@radix-ui/react-popover": "^1.0.7",
+    "accept-language": "^3.0.18",
     "date-fns": "^2.30.0",
     "firebase": "^10.7.1",
     "firebase-admin": "^11.11.1",
