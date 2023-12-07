@@ -6,7 +6,20 @@ export default {
     variables: {},
     semantics: {},
     mediaQueries: {},
-    animations: {},
+    animations: {
+        'transition-down': {
+            from: {
+                opacity: '0',
+                translate: '0rem -1rem',
+                'pointer-events': 'none'
+            },
+            to: {
+                opacity: '1',
+                translate: '0',
+                'pointer-events': 'auto'
+            }
+        }
+    },
     selectors: {},
     functions: {}
 } as Config

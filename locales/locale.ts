@@ -9,7 +9,7 @@ const dictionaries: any = {
     'zh-tw': zhTw,
 }
 
-export function useTranslation(locale: string) {
+export function getDictionary(locale: string) {
     const dict = dictionaries[locale]
     const t = (key: string) => dict?.[key] ?? key
     return { t }

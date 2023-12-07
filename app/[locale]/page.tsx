@@ -1,13 +1,13 @@
 import Calendar from '@/components/calendar'
-import { useTranslation } from '@/locales/locale'
+import { getDictionary } from '@/locales/locale'
 import Link from 'next/link'
 
 export default function Home({ params: { locale } }: any) {
-    const { t } = useTranslation(locale)
+    const { t } = getDictionary(locale)
     return (
         <>
             <div className="m:0|auto max-w:xl p:16">
-                <Link href="/new">{t('test')}</Link>
+                <Link href={`/${locale}/new`}>{t('test')}</Link>
             </div>
         </>
     )
