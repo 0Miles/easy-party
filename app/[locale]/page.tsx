@@ -1,15 +1,11 @@
-'use client'
-
-import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 import Image from 'next/image'
 import Link from 'next/link'
 import photo1 from '@/public/photo.jpg'
-import photo2 from '@/public/photo2.gif'
+import photo2 from '@/public/photo2.webp'
 import photo3 from '@/public/photo3.png'
 
 export default function Home({ params: { locale } }: any) {
-    const { user } = useUserSession()
     const { t } = getDictionary(locale)
     return (
         <>
