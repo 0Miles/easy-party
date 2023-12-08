@@ -64,12 +64,12 @@ export default function NewPartyForm({ locale }: any) {
                     {
                         step === 1 &&
                         <div className="mt:80 flex flex:col @transition-left|.3s">
-                            <div>{t('Step 1')}</div>
+                            <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/4)</span></div>
                             <label htmlFor="name" className="f:36 f:28@<sm mb:40">{t('First, enter a party name')}</label>
                             <input className="
                                     f:54 f:36@<sm
                                     outline:none
-                                    border-width:0|0|2|0 border-style:solid border-color:white border-color:gray@light
+                                    border-width:0|0|2|0 border-style:solid border-color:white border-color:gray-80@light
                                     border-color:blue-50:focus border-color:sky-60:focus@light
                                     mb:30
                                     "
@@ -91,7 +91,7 @@ export default function NewPartyForm({ locale }: any) {
                                         bg:blue-50 fg:white bg:blue-40:hover bg:blue-30:active 
                                         bg:sky-60@light fg:white bg:sky-70:hover@light bg:sky-80:active@light
                                         bg:blue-50/.2:disabled fg:blue-60:disabled cursor:not-allowed:disabled
-                                        bg:sky-60/.2:disabled@light fg:sky-50:disabled@light
+                                        bg:sky-70/.2:disabled@light fg:sky-76:disabled@light
                                     "
                                     onClick={() => setStep(2)}
                                     disabled={!partyName}>
@@ -103,7 +103,7 @@ export default function NewPartyForm({ locale }: any) {
                     {
                         step === 2 &&
                         <div className="mt:80 flex flex:col @transition-left|.3s">
-                            <div>{t('Step 2')}</div>
+                            <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/4)</span></div>
                             <div className="f:36 f:28@<sm mb:10">{t('Please set the party time range')}</div>
                             <div className="f:24 f:16@<sm mb:40">{t('Select a time range and let participants choose when they are available')}</div>
 
@@ -121,7 +121,7 @@ export default function NewPartyForm({ locale }: any) {
                                         className="
                                             f:36 f:28@<sm
                                             outline:none
-                                            border-width:0|0|2|0 border-style:solid border-color:white border-color:gray@light
+                                            border-width:0|0|2|0 border-style:solid border-color:white border-color:gray-80@light
                                             border-color:blue-50:focus border-color:sky-60:focus@light
                                         "
                                         type="date" value={startDate} onChange={(e) => {
@@ -147,7 +147,7 @@ export default function NewPartyForm({ locale }: any) {
                                         className="
                                             f:36 f:28@<sm
                                             outline:none
-                                            border-width:0|0|2|0 border-style:solid border-color:white border-color:gray@light
+                                            border-width:0|0|2|0 border-style:solid border-color:white border-color:gray-80@light
                                             border-color:blue-50:focus border-color:sky-60:focus@light
                                         "
                                         min={startDate}
@@ -171,7 +171,7 @@ export default function NewPartyForm({ locale }: any) {
                                         bg:blue-50 fg:white bg:blue-40:hover bg:blue-30:active 
                                         bg:sky-60@light fg:white bg:sky-70:hover@light bg:sky-80:active@light
                                         bg:blue-50/.2:disabled fg:blue-60:disabled cursor:not-allowed:disabled
-                                        bg:sky-60/.2:disabled@light fg:sky-50:disabled@light
+                                        bg:sky-70/.2:disabled@light fg:sky-76:disabled@light
                                     "
                                     onClick={() => setStep(3)}>
                                     {t('Next step')}
@@ -182,13 +182,13 @@ export default function NewPartyForm({ locale }: any) {
                     {
                         step === 3 &&
                         <div className="mt:80 flex flex:col @transition-left|.3s">
-                            <div>{t('Step 3')}</div>
+                            <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/4)</span></div>
                             <label htmlFor="desc" className="f:36 f:28@<sm mb:10">{t('Please enter a description of this party')}</label>
                             <label htmlFor="desc" className="f:24 f:16@<sm mb:40">{t('For example: party location, itinerary...')}</label>
                             <textarea className="
                                     f:42 f:28@<sm
                                     outline:none
-                                    border-width:0|0|2|0 border-style:solid border-color:white border-color:gray@light
+                                    border-width:0|0|2|0 border-style:solid border-color:white border-color:gray-80@light
                                     border-color:blue-50:focus border-color:sky-60:focus@light
                                     mb:30 resize:vertical
                                     "
@@ -212,7 +212,7 @@ export default function NewPartyForm({ locale }: any) {
                                         bg:blue-50 fg:white bg:blue-40:hover bg:blue-30:active 
                                         bg:sky-60@light fg:white bg:sky-70:hover@light bg:sky-80:active@light
                                         bg:blue-50/.2:disabled fg:blue-60:disabled cursor:not-allowed:disabled
-                                        bg:sky-60/.2:disabled@light fg:sky-50:disabled@light
+                                        bg:sky-70/.2:disabled@light fg:sky-76:disabled@light
                                     "
                                     onClick={() => setStep(4)}>
                                     {t('Next step')}
@@ -223,7 +223,7 @@ export default function NewPartyForm({ locale }: any) {
                     {
                         step === 4 &&
                         <div className="mt:80 flex flex:col @transition-left|.3s">
-                            <div>{t('Step 4')}</div>
+                            <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/4)</span></div>
                             <div className="f:36 mb:10 f:28@<sm">{t('Please upload a preview image')}</div>
                             <div className="f:24 mb:40 f:16@<sm">{t('The preview image will appear on the invitation link and date selection page')}</div>
 
@@ -248,7 +248,7 @@ export default function NewPartyForm({ locale }: any) {
                                         bg:blue-50 fg:white bg:blue-40:hover bg:blue-30:active 
                                         bg:sky-60@light fg:white bg:sky-70:hover@light bg:sky-80:active@light
                                         bg:blue-50/.2:disabled fg:blue-60:disabled cursor:not-allowed:disabled
-                                        bg:sky-60/.2:disabled@light fg:sky-50:disabled@light
+                                        bg:sky-70/.2:disabled@light fg:sky-76:disabled@light
                                     "
                                     onClick={() => { createParty(); setStep(5) }}>
                                     {t('Complete')}
