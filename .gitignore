@@ -37,3 +37,4 @@ next-env.d.ts
 
 .env
 easy-party-30f74-*.json
+/.firebase/
