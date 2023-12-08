@@ -24,3 +24,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EASY_PARTY_30F74 }}'
           projectId: easy-party-30f74
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
