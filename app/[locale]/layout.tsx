@@ -5,6 +5,7 @@ import config from '@/master.css'
 import { ThemeProvider } from '@/contexts/theme'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/firebase'
 import Header from '@/components/header'
+import { UserSessionProvider } from '@/contexts/user-session'
 
 
 export const metadata: Metadata = {
@@ -26,10 +27,14 @@ export default async function RootLayout({
         <html lang={locale} suppressHydrationWarning style={process.env.NODE_ENV === 'development' ? { display: 'none' } : undefined}>
             <body>
                 <ThemeProvider>
-                    <CSSProvider config={config}>
-                        <Header initialUser={currentUser?.toJSON()} locale={locale} />
-                        {children}
-                    </CSSProvider>
+                    <UserSessionProvider initialUser={currentUser?.toJSON()}>
+                        <CSSProvider config={config}>
+                            <Header locale={locale} />
+                            <div className="m:0|auto max-w:lg">
+                                {children}
+                            </div>
+                        </CSSProvider>
+                    </UserSessionProvider>
                 </ThemeProvider>
             </body>
         </html>
