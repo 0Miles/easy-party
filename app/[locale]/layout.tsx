@@ -10,7 +10,10 @@ import { UserSessionProvider } from '@/contexts/user-session'
 
 export const metadata: Metadata = {
     title: 'Easy Party',
-    description: ''
+    description: '',
+    icons: {
+        icon: '/favicon.ico?v=2'
+    }
 }
 
 export default async function RootLayout({
