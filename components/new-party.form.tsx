@@ -55,7 +55,7 @@ export default function NewPartyForm({ locale }: any) {
     return (
         <>
             {
-                !user && 
+                !user && user !== undefined &&
                 <PleaseSignIn locale={locale} />
             }
             {

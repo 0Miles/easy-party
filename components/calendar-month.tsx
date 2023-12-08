@@ -9,10 +9,10 @@ export default function CalendarMonth({ month, availableDates }: any) {
 
     return (
         <div className="flex flex:col align-items:center">
-            <h3>
+            <h3 className="mb:20">
                 {format(month, 'MMMM yyyy')}
             </h3>
-            <div className="grid grid-cols:7 w:100% gap:4 hide@<sm">
+            <div className="grid grid-cols:7 w:100% gap:4 hide@<xs">
                 {
                     [0, 1, 2, 3, 4, 5, 6].map(offset =>
                         <div key={offset} className="p:8 text-align:center">
@@ -21,7 +21,7 @@ export default function CalendarMonth({ month, availableDates }: any) {
                     )
                 }
             </div>
-            <div className="grid grid-cols:7 grid-cols:1@<sm w:100% gap:4">
+            <div className="grid grid-cols:7 grid-cols:1@<xs w:100% gap:4">
                 {
                     days.map((day, index) =>
                         <CalendarDay key={index} month={month} day={isSameMonth(day, month) && day} availableDates={availableDates} />

@@ -30,6 +30,12 @@ export async function addParty(newParty: any) {
     }
 }
 
+export async function getParty(partyId: any) {
+    const docRef = doc(db, 'party', partyId)
+    const docSnap = await getDoc(docRef)
+    return docSnap.data()
+}
+
 export async function updatePartyImage(partyId: string, imageUrl: string) {
     const partyRef = doc(collection(db, "party"), partyId);
     if (partyRef) {
