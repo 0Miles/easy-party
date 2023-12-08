@@ -32,10 +32,10 @@ export default function Home({ params: { locale } }: any) {
                     <button className="
                             p:16|32 r:3
                             ~background|.2s
-                            bg:white fg:black bg:gray-80:hover@dark bg:gray-96:active@dark
-                            bg:black@light fg:white@light bg:gray-30:hover@light bg:gray-10:active@light
+                            bg:white fg:black bg:gray-70:hover@dark bg:gray-50:active@dark
+                            bg:black@light fg:white@light bg:gray-30:hover@light bg:gray-50:active@light
                         ">
-                        立刻建立活動
+                        {t('Create a party now')}
                     </button>
                 </Link>
             </section>

@@ -1,7 +1,6 @@
-import Calendar from '@/components/calendar'
+import NewPartyForm from '@/components/new-party.form'
 import { getDictionary } from '@/locales/locale'
 import { Metadata, ResolvingMetadata } from 'next'
-import Link from 'next/link'
 
 export async function generateMetadata(
     { params, searchParams }: any,
@@ -14,13 +13,14 @@ export async function generateMetadata(
     }
 }
 
-export default function NewParty() {
+export default function NewParty({ params: { locale } }: any) {
+    const { t } = getDictionary(locale)
+
 
     return (
-        <>
-            <div className="m:0|auto max-w:xl p:16">
 
-            </div>
+        <>
+            <NewPartyForm locale={locale} />
         </>
     )
 }
