@@ -24,7 +24,7 @@ export default async function RootLayout({
     const { locale } = params
 
     return (
-        <html lang={locale} suppressHydrationWarning style={process.env.NODE_ENV === 'development' ? { display: 'none' } : undefined}>
+        <html lang={locale} suppressHydrationWarning style={{ display: 'none' }}>
             <body>
                 <ThemeProvider>
                     <UserSessionProvider initialUser={currentUser?.toJSON()}>

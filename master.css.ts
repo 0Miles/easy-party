@@ -54,4 +54,4 @@ export default {
     },
     selectors: {},
     functions: {}
-} as Config
+} as any
