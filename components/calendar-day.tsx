@@ -44,7 +44,7 @@ export default function CalendarDay({ day, availableDates }: any) {
         <div className={`
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
-                    ${isMyFreeDay ? 'bg:rgb(48,53,47) bg:rgb(222,240,217)@light' : 'bg:gray-10 bg:gray-90@light'}
+                    ${isMyFreeDay ? 'bg:gray-20 bg:rgb(222,240,217)@light' : 'bg:gray-10 bg:gray-90@light'}
                     ~background-color|.2s
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
