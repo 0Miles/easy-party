@@ -35,9 +35,13 @@ export async function addParty(newParty: any) {
 export async function getParty(partyId: any): Promise<any> {
     const docRef = doc(db, 'party', partyId)
     const docSnap = await getDoc(docRef)
-    return {
-        id: docRef.id,
-        ...docSnap.data()
+    if (docSnap.data()) {
+        return {
+            id: docRef.id,
+            ...docSnap.data()
+        }
+    } else {
+        return null
     }
 }
 
