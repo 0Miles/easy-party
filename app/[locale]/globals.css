@@ -3,3 +3,8 @@
 html.dark {
     color-scheme: dark;
 }
+
+html.dark body {
+    background-color: black;
+    color: white;
+}
