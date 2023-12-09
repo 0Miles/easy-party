@@ -294,8 +294,8 @@ export default function NewPartyForm({ locale }: any) {
                                                 <Image src={partyImgUrl ? partyImgUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                             </div>
                                             <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
-                                            <h1 className="px:16 mt:6 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
-                                            <h2 className="px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
+                                            <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
+                                            <h2 className="f:16 px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
                                         </div>
                                     </Link>
                                     <div className="flex justify-content:center align-items:center gap:8 mb:30">
