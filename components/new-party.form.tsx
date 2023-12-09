@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { useUserSession } from '@/contexts/user-session'
 import PleaseSignIn from './please-sign-in'
 import Image from 'next/image'
-import defaultImage from '@/public/default.png'
+import defaultImage from '@/public/images/default.png'
 
 export default function NewPartyForm({ locale }: any) {
     const { t } = getDictionary(locale)

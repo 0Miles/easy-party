@@ -1,9 +1,9 @@
 import { getDictionary } from '@/locales/locale'
 import Image from 'next/image'
 import Link from 'next/link'
-import photo1 from '@/public/photo.jpg'
-import photo2 from '@/public/photo2.webp'
-import photo3 from '@/public/photo3.png'
+import photo1 from '@/public/images/photo.jpg'
+import photo2 from '@/public/images/photo2.webp'
+import photo3 from '@/public/images/photo3.png'
 
 export default function Home({ params: { locale } }: any) {
     const { t } = getDictionary(locale)

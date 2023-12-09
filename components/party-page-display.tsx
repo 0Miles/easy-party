@@ -5,7 +5,7 @@ import Calendar from '@/components/calendar'
 import PleaseSignIn from '@/components/please-sign-in'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
-import defaultImage from '@/public/default.png'
+import defaultImage from '@/public/images/default.png'
 import Image from 'next/image'
 
 export default function PartyPageDisplay({ locale, party }: any) {
