@@ -10,9 +10,12 @@ import { UserSessionProvider } from '@/contexts/user-session'
 
 export const metadata: Metadata = {
     title: 'Easy Party',
-    description: '',
+    description: 'Discover Your Shared Moments!',
     icons: {
         icon: '/favicon.ico?v=2'
+    },
+    openGraph: {
+        images: ['https://easy-party.latte.today/images/default.png'],
     }
 }
 
