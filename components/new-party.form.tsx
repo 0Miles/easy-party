@@ -11,6 +11,8 @@ import * as Toast from '@radix-ui/react-toast'
 import Link from 'next/link'
 import { useUserSession } from '@/contexts/user-session'
 import PleaseSignIn from './please-sign-in'
+import Image from 'next/image'
+import defaultImage from '@/public/default.png'
 
 export default function NewPartyForm({ locale }: any) {
     const { t } = getDictionary(locale)
@@ -290,8 +292,8 @@ export default function NewPartyForm({ locale }: any) {
                                         <div className="max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
                                             {
                                                 !!partyImgUrl &&
-                                                <div className="max-w:500 max-h:300 overflow:clip">
-                                                    <img className="object-fit:cover w:full h:full" src={partyImgUrl} alt="previewImage" />
+                                                <div className="rel max-w:500 max-h:300 overflow:clip">
+                                                    <Image src={partyImgUrl ?? defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                                 </div>
                                             }
                                             <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
