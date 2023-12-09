@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable @next/next/no-img-element */
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
 import { CalendarContext } from './calendar'

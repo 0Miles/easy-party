@@ -7,7 +7,7 @@ import {
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import SignInButton from './sign-in.button'
+import SignInButton from './sign-in-button'
 
 export default function UserMenu({ locale }: any) {
     const { user } = useUserSession()

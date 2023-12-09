@@ -1,10 +1,9 @@
-import NewPartyForm from '@/components/new-party.form'
+import NewPartyClient from '@/components/page-client/new-party-client'
 import { getDictionary } from '@/locales/locale'
 import { Metadata, ResolvingMetadata } from 'next'
 
 export async function generateMetadata(
-    { params, searchParams }: any,
-    parent: ResolvingMetadata
+    { params }: any
 ): Promise<Metadata> {
     const { t } = getDictionary(params.locale)
 
@@ -20,7 +19,7 @@ export default function NewParty({ params: { locale } }: any) {
     return (
 
         <>
-            <NewPartyForm locale={locale} />
+            <NewPartyClient locale={locale} />
         </>
     )
 }

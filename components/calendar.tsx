@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, createContext, useEffect } from 'react'
-import CalendarMonth from './calendar-month'
 import { eachDayOfInterval } from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
+import CalendarMonth from './calendar-month'
 
 
 export const CalendarContext: any = createContext<any>(null)

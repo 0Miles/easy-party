@@ -1,6 +1,6 @@
-import { getDictionary } from '@/locales/locale'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getDictionary } from '@/locales/locale'
 import photo1 from '@/public/images/photo.jpg'
 import photo2 from '@/public/images/photo2.webp'
 import photo3 from '@/public/images/photo3.png'

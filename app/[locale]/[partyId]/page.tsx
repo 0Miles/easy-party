@@ -1,8 +1,8 @@
-import PartyPageDisplay from '@/components/party-page-display'
-import { getParty } from '@/lib/firebase/firestore'
+import { cache } from 'react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { cache } from 'react'
+import { getParty } from '@/lib/firebase/firestore'
+import PartyClient from '@/components/page-client/party-client'
 
 const getPartyData = cache(async (partyId: string) => {
     const party = await getParty(partyId)
@@ -37,7 +37,7 @@ export default async function PartyPage({ params: { locale, partyId } }: any) {
 
     return (
         <>
-            <PartyPageDisplay locale={locale} party={party} />
+            <PartyClient locale={locale} party={party} />
         </>
     )
 }

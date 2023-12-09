@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import Calendar from '@/components/calendar'
@@ -8,7 +7,7 @@ import { getDictionary } from '@/locales/locale'
 import defaultImage from '@/public/images/default.png'
 import Image from 'next/image'
 
-export default function PartyPageDisplay({ locale, party }: any) {
+export default function PartyClient({ locale, party }: any) {
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
 

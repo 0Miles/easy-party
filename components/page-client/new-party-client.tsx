@@ -1,20 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import { getDictionary } from '@/locales/locale'
 import { useState, useRef, useEffect } from 'react'
-import ImageSelector from './image-selector'
+import ImageSelector from '../image-selector'
 import { addParty, updatePartyImage } from '@/lib/firebase/firestore'
 import { uploadImage } from '@/lib/firebase/storage'
 import * as Toast from '@radix-ui/react-toast'
 import Link from 'next/link'
 import { useUserSession } from '@/contexts/user-session'
-import PleaseSignIn from './please-sign-in'
+import PleaseSignIn from '../please-sign-in'
 import Image from 'next/image'
 import defaultImage from '@/public/images/default.png'
 import { format } from 'date-fns'
 
-export default function NewPartyForm({ locale }: any) {
+export default function NewPartyClient({ locale }: any) {
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
     const [step, setStep] = useState(1)
