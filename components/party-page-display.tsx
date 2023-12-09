@@ -4,9 +4,11 @@
 import Calendar from '@/components/calendar'
 import PleaseSignIn from '@/components/please-sign-in'
 import { useUserSession } from '@/contexts/user-session'
+import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
 import { getDictionary } from '@/locales/locale'
 import defaultImage from '@/public/images/default.png'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 export default function PartyPageDisplay({ locale, party }: any) {
     const { t } = getDictionary(locale)
@@ -38,12 +40,12 @@ export default function PartyPageDisplay({ locale, party }: any) {
 
                                     </p>
                                     <div className="flex flex:1 justify-content:end align-items:end my:16">
-                                        
+
                                     </div>
                                 </div>
                             </div>
 
-                            <Calendar startDate={new Date(party.startDate)} endDate={new Date(party.endDate)} />
+                            <Calendar party={party} />
                         </>
                     }
                 </div>

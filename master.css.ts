@@ -18,7 +18,7 @@ export default {
         'transition-down': {
             from: {
                 opacity: 0,
-                translate: '0rem -1rem',
+                translate: '0rem -30%',
                 'pointer-events': 'none'
             },
             to: {
@@ -30,7 +30,7 @@ export default {
         'transition-up': {
             from: {
                 opacity: 0,
-                translate: '0rem 5rem',
+                translate: '0rem 30%',
                 'pointer-events': 'none'
             },
             to: {
@@ -42,7 +42,19 @@ export default {
         'transition-left': {
             from: {
                 opacity: 0,
-                translate: '10rem 0rem',
+                translate: '30% 0rem',
+                'pointer-events': 'none'
+            },
+            to: {
+                opacity: 1,
+                translate: 0,
+                'pointer-events': 'auto'
+            }
+        },
+        'transition-right': {
+            from: {
+                opacity: 0,
+                translate: '0rem 30%',
                 'pointer-events': 'none'
             },
             to: {

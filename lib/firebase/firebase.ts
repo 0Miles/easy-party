@@ -22,7 +22,6 @@ export const storage = getStorage(firebaseApp)
 
 export async function getAuthenticatedAppForUser(session: any = null) {
     if (typeof window !== 'undefined') {
-        console.log('client: ', firebaseApp)
         
         return { app: firebaseApp, user: auth.currentUser?.toJSON() }
     } else {
@@ -65,7 +64,6 @@ export async function getAuthenticatedAppForUser(session: any = null) {
 
             await signInWithCustomToken(auth, customToken)
         }
-        console.log('server: ', app)
         return { app, currentUser: auth.currentUser }
     }
 }

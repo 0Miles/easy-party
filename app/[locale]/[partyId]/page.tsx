@@ -1,6 +1,5 @@
 import PartyPageDisplay from '@/components/party-page-display'
 import { getParty } from '@/lib/firebase/firestore'
-import { getDictionary } from '@/locales/locale'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
@@ -31,8 +30,6 @@ export async function generateMetadata(
 
 
 export default async function PartyPage({ params: { locale, partyId } }: any) {
-    const { t } = getDictionary(locale)
-
     const party = await getPartyData(partyId)
     if (!party) {
         return notFound()

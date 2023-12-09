@@ -9,6 +9,7 @@ import { UserSessionProvider } from '@/contexts/user-session'
 
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://easy-party.latte.today'),
     title: 'Easy Party',
     description: 'Discover Your Shared Moments!',
     icons: {

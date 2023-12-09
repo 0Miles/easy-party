@@ -2,7 +2,6 @@
 'use client'
 
 import { getDictionary } from '@/locales/locale'
-import { Metadata, ResolvingMetadata } from 'next'
 import { useState, useRef, useEffect } from 'react'
 import ImageSelector from './image-selector'
 import { addParty, updatePartyImage } from '@/lib/firebase/firestore'
@@ -13,6 +12,7 @@ import { useUserSession } from '@/contexts/user-session'
 import PleaseSignIn from './please-sign-in'
 import Image from 'next/image'
 import defaultImage from '@/public/images/default.png'
+import { format } from 'date-fns'
 
 export default function NewPartyForm({ locale }: any) {
     const { t } = getDictionary(locale)
@@ -20,8 +20,8 @@ export default function NewPartyForm({ locale }: any) {
     const [step, setStep] = useState(1)
     const [partyName, setPartyName] = useState('')
     const [partyDesc, setPartyDesc] = useState('')
-    const [startDate, setStartDate] = useState(new Date().toISOString().substring(0, 10))
-    const [endDate, setEndDate] = useState(new Date().toISOString().substring(0, 10))
+    const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'))
+    const [endDate, setEndDate] = useState(format(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd'))
     const [previewImg, setPreviewImg] = useState(null) as any
 
     const [creating, setCreating] = useState(false)
@@ -129,7 +129,7 @@ export default function NewPartyForm({ locale }: any) {
                                         type="date" value={startDate} onChange={(e) => {
                                             setStartDate(e.target.value)
                                             if (new Date(e.target.value) > new Date(endDate)) {
-                                                setEndDate(e.target.value)
+                                                setEndDate(format(new Date(e.target.value).setDate(new Date(e.target.value).getDate() + 1), 'yyyy-MM-dd'))
                                             }
                                         }} />
                                 </div>
@@ -152,7 +152,7 @@ export default function NewPartyForm({ locale }: any) {
                                             border-width:0|0|2|0 border-style:solid border-color:white border-color:gray-80@light
                                             border-color:blue-50:focus border-color:sky-60:focus@light
                                         "
-                                        min={startDate}
+                                        min={format(new Date(startDate).setDate(new Date(startDate).getDate() + 1), 'yyyy-MM-dd')}
                                         type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
                                 </div>
                             </div>
@@ -290,12 +290,9 @@ export default function NewPartyForm({ locale }: any) {
                                     </div>
                                     <Link href={partyLink}>
                                         <div className="max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
-                                            {
-                                                !!partyImgUrl &&
-                                                <div className="rel max-w:500 max-h:300 overflow:clip">
-                                                    <Image src={partyImgUrl ?? defaultImage} layout="fill" objectFit="cover" alt="preview" />
-                                                </div>
-                                            }
+                                            <div className="rel max-w:500 aspect-ratio:16/9 overflow:clip">
+                                                <Image src={partyImgUrl ? partyImgUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
+                                            </div>
                                             <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
                                             <h1 className="px:16 mt:6 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
                                             <h2 className="px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>

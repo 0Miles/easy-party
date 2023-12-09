@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { format, addDays, startOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth } from 'date-fns'
 import CalendarDay from './calendar-day'
