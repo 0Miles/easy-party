@@ -11,7 +11,7 @@ export default function CalendarMonth({ month, availableDates }: any) {
 
     return (
         <div className="flex flex:col align-items:center">
-            <h3 className="mb:20">
+            <h3 className="mb:20 mt:30">
                 {format(month, 'MMMM yyyy')}
             </h3>
             <div className="grid grid-cols:7 w:100% gap:4 hide@<xs">

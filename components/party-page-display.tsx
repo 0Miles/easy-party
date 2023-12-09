@@ -20,7 +20,7 @@ export default function PartyPageDisplay({ locale, party }: any) {
             }
             {
                 !!user &&
-                <div className="p:16">
+                <div className="p:16 pb:60">
                     {
                         !!party &&
                         <>
@@ -29,11 +29,11 @@ export default function PartyPageDisplay({ locale, party }: any) {
                                     <Image src={party.image ?? defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                 </div>
                                 <div className="flex flex:1 w:0 flex:col mx:16 justify-content:center">
-                                    <h1 className="f:28 f:24@<sm mt:10 white-space:nowrap overflow:clip text-overflow:ellipsis">
+                                    <h1 className="f:28 f:24@<sm mt:20 white-space:nowrap overflow:clip text-overflow:ellipsis">
                                         {party.name}
                                     </h1>
                                     <h2 className="f:18 {f:16;my:4}@<sm my:8 font-weight:normal fg:gray-60 fg:gray-50@light">{party.startDate} ~ {party.endDate}</h2>
-                                    <p className="my:16 f:18 f:16@<sm">
+                                    <p className="mt:16 mb:26 f:18 f:16@<sm">
                                         {party.desc}
 
                                     </p>
