@@ -53,7 +53,7 @@ export default function CalendarDay({ day, availableDates }: any) {
             {
                 !!day &&
                 <div className="flex">
-                    <span className="inline-block w:86@<xs">
+                    <span className="mr:8">
                         <span className="hide@xs">
                             {format(day, 'yyyy/MM/')}
                         </span>
