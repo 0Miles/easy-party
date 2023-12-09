@@ -16,7 +16,7 @@ export const metadata: Metadata = {
         icon: '/favicon.ico?v=2'
     },
     openGraph: {
-        images: ['https://easy-party.latte.today/images/default.png'],
+        images: ['/images/default.png'],
     }
 }
 

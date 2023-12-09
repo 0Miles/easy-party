@@ -23,7 +23,7 @@ export async function generateMetadata(
         title: party.name + ' | Easy Party',
         description: party.desc ?? '',
         openGraph: {
-            images: [party.image ?? 'https://easy-party.latte.today/images/default.png'],
+            images: [party.image ?? '/images/default.png'],
         },
     }
 }
