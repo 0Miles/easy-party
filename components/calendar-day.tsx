@@ -7,6 +7,7 @@ import { useUserSession } from '@/contexts/user-session'
 import { CalendarContext } from './calendar'
 import { updateParticipantToParty } from '@/lib/firebase/firestore'
 import * as Tooltip from '@radix-ui/react-tooltip'
+import CalendarAvatar from './calendar-avatar'
 
 export default function CalendarDay({ day, availableDates }: any) {
 
@@ -74,36 +75,12 @@ export default function CalendarDay({ day, availableDates }: any) {
             <div className="flex flex:1 align-items:end {r:50%;24x24;mr:-16;~margin-right|.2s}>img user-select:none">
                 {
                     isMyFreeDay &&
-                    <Tooltip.Provider>
-                        <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
-                                <img className="z:999 @transition-up|.2s" src={selectedCharacter.avatarUrl ?? ''} alt={selectedCharacter.name ?? ''} />
-                            </Tooltip.Trigger>
-                            <Tooltip.Portal>
-                                <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
-                                    {selectedCharacter.name ?? ''}
-                                    <Tooltip.Arrow className="fill:gray-20 fill:gray-95@light" />
-                                </Tooltip.Content>
-                            </Tooltip.Portal>
-                        </Tooltip.Root>
-                    </Tooltip.Provider>
+                    <CalendarAvatar className={`z:999`} src={selectedCharacter.avatarUrl} displayName={selectedCharacter.name ?? ''} />
                 }
                 {
                     otherFreeParticipants.map(
                         (participant: any, index: number) =>
-                            <Tooltip.Provider key={index}>
-                                <Tooltip.Root>
-                                    <Tooltip.Trigger asChild>
-                                        <img className={`z:${998 - index} @transition-up|.2s`} src={participant.avatar} alt={participant.displayName} />
-                                    </Tooltip.Trigger>
-                                    <Tooltip.Portal>
-                                        <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
-                                            {participant.displayName ?? ''}
-                                            <Tooltip.Arrow className="fill:gray-20 fill:gray-95@light" />
-                                        </Tooltip.Content>
-                                    </Tooltip.Portal>
-                                </Tooltip.Root>
-                            </Tooltip.Provider>
+                            <CalendarAvatar key={index} className={`z:${998 - index}`} src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
 
                     )
                 }

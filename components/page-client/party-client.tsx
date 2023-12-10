@@ -10,11 +10,13 @@ import Image from 'next/image'
 import CharacterSelector from '../character-selector'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import CalendarAvatar from '../calendar-avatar'
 
 export default function PartyClient({ locale, party }: any) {
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
     const [selectedCharacter, setSelectedCharacter] = useState<any>()
+    const [participants, setParticipants] = useState<any[]>([])
 
     useEffect(() => {
         if (user === null) {
@@ -68,10 +70,18 @@ export default function PartyClient({ locale, party }: any) {
                                         {party.name}
                                     </h1>
                                     <h2 className="f:18 {f:16;my:4}@<sm my:8 font-weight:normal fg:gray-60 fg:gray-50@light">{party.startDate} ~ {party.endDate}</h2>
-                                    <p className="mt:16 mb:26 f:18 f:16@<sm">
+                                    <p className="mt:16 mb:36 f:18 f:16@<sm">
                                         {party.desc}
 
                                     </p>
+                                    <div className="flex flex-wrap:wrap {r:50%;36x36;mr:3}>img user-select:none mb:20">
+                                        {
+                                            participants.map(
+                                                (participant: any, index: number) =>
+                                                    <CalendarAvatar key={index} src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
+                                            )
+                                        }
+                                    </div>
                                 </div>
                             </div>
 
@@ -108,7 +118,7 @@ export default function PartyClient({ locale, party }: any) {
                                 </div>
                             }
 
-                            <Calendar party={party} selectedCharacter={selectedCharacter} />
+                                <Calendar party={party} selectedCharacter={selectedCharacter} onParticipantsChange={(results: any) => setParticipants(results)} />
                         </>
                     }
                 </div>

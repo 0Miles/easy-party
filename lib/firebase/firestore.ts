@@ -84,7 +84,7 @@ export async function updateParticipantToParty(partyId: string, participantData:
         if (auth.currentUser) {
             const newParticipantDocRef = doc(collection(db, `party/${partyId}/participant`), auth.currentUser.uid)
             participantData.uid = auth.currentUser.uid
-            participantData.avatar = auth.currentUser.photoURL
+            participantData.avatarUrl = auth.currentUser.photoURL
             participantData.displayName = auth.currentUser.displayName
 
             await runTransaction(db, transaction =>
@@ -96,7 +96,7 @@ export async function updateParticipantToParty(partyId: string, participantData:
     } else {
         const newParticipantDocRef = doc(collection(db, `party/${partyId}/participant`), character.id)
         participantData.characterId = character.id
-        participantData.avatar = character.avatarUrl
+        participantData.avatarUrl = character.avatarUrl
         participantData.displayName = character.name
 
         await runTransaction(db, transaction =>

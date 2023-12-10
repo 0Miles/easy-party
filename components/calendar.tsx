@@ -9,7 +9,7 @@ import CalendarMonth from './calendar-month'
 
 export const CalendarContext: any = createContext<any>(null)
 
-export default function Calendar({ party, selectedCharacter }: any) {
+export default function Calendar({ party, selectedCharacter, onParticipantsChange }: any) {
 
     const { user } = useUserSession()
     const [loading, setLoading] = useState<boolean>(true)
@@ -24,6 +24,7 @@ export default function Calendar({ party, selectedCharacter }: any) {
             party.id,
             (results) => {
                 setParticipants(results ?? [])
+                onParticipantsChange && onParticipantsChange(results ?? [])
                 if (loading) {
                     setMyFreeDays((results ?? [])
                         .find((x: any) => 
