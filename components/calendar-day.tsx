@@ -17,11 +17,16 @@ export default function CalendarDay({ day, availableDates }: any) {
     const [isMyFreeDay, setIsMyFreeDay] = useState(!!myFreeDays.find((x: any) => x === dayString))
 
     const [otherFreeParticipants, setOtherFreeParticipants] = useState([])
+    const [headcountRatio, setHeadcountRatio] = useState<number>(0)
+
+    useEffect(() => {
+        setHeadcountRatio(((otherFreeParticipants.length + (isMyFreeDay ? 1 : 0)) / participants.length) * 100)
+    }, [isMyFreeDay, otherFreeParticipants, participants])
 
     useEffect(() => {
         setOtherFreeParticipants(participants.filter((x: any) => (selectedCharacter.googleUser && x.uid !== user.uid
-                                                                 || !selectedCharacter.googleUser && x.characterId !== selectedCharacter.id)
-                                                                 && x.freeDays.includes(dayString)))
+            || !selectedCharacter.googleUser && x.characterId !== selectedCharacter.id)
+            && x.freeDays.includes(dayString)))
     }, [dayString, participants, selectedCharacter, user])
 
     const handleMyFreeDayChange = () => {
@@ -46,7 +51,7 @@ export default function CalendarDay({ day, availableDates }: any) {
         <div className={`
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
-                    ${isMyFreeDay ? 'bg:gray-20 bg:rgb(222,240,217)@light' : 'bg:gray-10 bg:gray-90@light'}
+                    bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${120}|${headcountRatio}%|82%)@light
                     ~background-color|.2s overflow:clip
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
@@ -66,14 +71,30 @@ export default function CalendarDay({ day, availableDates }: any) {
                     </span>
                 </div>
             }
-            <div className="flex flex:1 align-items:end {r:50%;24x24;mr:-16;~margin-right|.2s}>img">
+            <div className="flex flex:1 align-items:end {r:50%;24x24;mr:-16;~margin-right|.2s}>img user-select:none">
+                {
+                    isMyFreeDay &&
+                    <Tooltip.Provider>
+                        <Tooltip.Root>
+                            <Tooltip.Trigger asChild>
+                                <img className="z:999 @transition-up|.2s" src={selectedCharacter.avatarUrl ?? ''} alt={selectedCharacter.name ?? ''} />
+                            </Tooltip.Trigger>
+                            <Tooltip.Portal>
+                                <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
+                                    {selectedCharacter.name ?? ''}
+                                    <Tooltip.Arrow className="fill:gray-20 fill:gray-95@light" />
+                                </Tooltip.Content>
+                            </Tooltip.Portal>
+                        </Tooltip.Root>
+                    </Tooltip.Provider>
+                }
                 {
                     otherFreeParticipants.map(
                         (participant: any, index: number) =>
                             <Tooltip.Provider key={index}>
                                 <Tooltip.Root>
                                     <Tooltip.Trigger asChild>
-                                        <img src={participant.avatar} alt={participant.displayName} />
+                                        <img className={`z:${998 - index} @transition-up|.2s`} src={participant.avatar} alt={participant.displayName} />
                                     </Tooltip.Trigger>
                                     <Tooltip.Portal>
                                         <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
@@ -85,22 +106,6 @@ export default function CalendarDay({ day, availableDates }: any) {
                             </Tooltip.Provider>
 
                     )
-                }
-                {
-                    isMyFreeDay &&
-                    <Tooltip.Provider>
-                        <Tooltip.Root>
-                            <Tooltip.Trigger asChild>
-                                <img src={selectedCharacter.avatarUrl ?? ''} alt={selectedCharacter.name ?? ''} />
-                            </Tooltip.Trigger>
-                            <Tooltip.Portal>
-                                <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
-                                    {selectedCharacter.name ?? ''}
-                                    <Tooltip.Arrow className="fill:gray-20 fill:gray-95@light" />
-                                </Tooltip.Content>
-                            </Tooltip.Portal>
-                        </Tooltip.Root>
-                    </Tooltip.Provider>
                 }
             </div>
         </div>
