@@ -51,7 +51,7 @@ export default function PartyClient({ locale, party }: any) {
                         <>
                             <div className="rel flex {flex-wrap:wrap}@<sm mb:50 bg:gray-10 bg:gray-90@light r:3">
                                 {
-                                    user.uid === party.createdBy &&
+                                    user?.uid === party.createdBy &&
                                     <Link href={`/${locale}/${party.id}/edit`}>
                                         <button className="abs top:16 right:16 r:3 p:4 
                                                             cursor:pointer user-select:none overflow:clip

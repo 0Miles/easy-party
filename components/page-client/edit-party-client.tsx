@@ -33,7 +33,7 @@ export default function EditPartyClient({ locale, party }: any) {
     const [partyLink, setPartyLink] = useState('')
     const [partyPreviewImageUrl, setPartyPreviewImageUrl] = useState('')
 
-    const [characters, setCharacters] = useState<any[]>(party.characters ?? [])
+    const [characters, setCharacters] = useState<any[]>(party?.characters ?? [])
 
     const addCharacterHandle = async () => {
         const generator = new AvatarGenerator()
