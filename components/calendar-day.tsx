@@ -20,7 +20,7 @@ export default function CalendarDay({ day, availableDates }: any) {
     const [headcountRatio, setHeadcountRatio] = useState<number>(0)
 
     useEffect(() => {
-        setHeadcountRatio(((otherFreeParticipants.length + (isMyFreeDay ? 1 : 0)) / participants.length) * 100)
+        setHeadcountRatio((((otherFreeParticipants?.length ?? 0) + (isMyFreeDay ? 1 : 0)) / (participants?.length ? participants.length : 1)) * 100)
     }, [isMyFreeDay, otherFreeParticipants, participants])
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function CalendarDay({ day, availableDates }: any) {
         <div className={`
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
-                    bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${120}|${headcountRatio}%|82%)@light
+                    bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${120}|${headcountRatio}%|90%)@light
                     ~background-color|.2s overflow:clip
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
