@@ -4,18 +4,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
-import { CalendarContext } from './calendar'
+import { PartyContext } from './page-client/party-client'
 import { updateParticipantToParty } from '@/lib/firebase/firestore'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import CalendarAvatar from './calendar-avatar'
 
 export default function CalendarDay({ day, availableDates }: any) {
 
-    const { myFreeDays, setMyFreeDays, party, participants, updateTimeout, setUpdateTimeout, selectedCharacter } = useContext<any>(CalendarContext)
+    const { myFreeDays, setMyFreeDays, party, participants, updateTimeout, setUpdateTimeout, selectedCharacter, filterResult } = useContext<any>(PartyContext)
     const { user } = useUserSession()
     const available = day && availableDates.find((x: Date) => x.getTime() === day.getTime())
     const dayString = day && format(day, 'yyyy-MM-dd')
     const [isMyFreeDay, setIsMyFreeDay] = useState(!!myFreeDays.find((x: any) => x === dayString))
+    const [isHighlight, setIsHighlight] = useState(false)
 
     const [otherFreeParticipants, setOtherFreeParticipants] = useState([])
     const [headcountRatio, setHeadcountRatio] = useState<number>(0)
@@ -25,10 +26,14 @@ export default function CalendarDay({ day, availableDates }: any) {
     }, [isMyFreeDay, otherFreeParticipants, participants])
 
     useEffect(() => {
-        setOtherFreeParticipants(participants.filter((x: any) => (selectedCharacter.googleUser && x.uid !== user.uid
+        setOtherFreeParticipants(participants.filter((x: any) => (selectedCharacter.googleUser && x.uid !== user?.uid
             || !selectedCharacter.googleUser && x.characterId !== selectedCharacter.id)
             && x.freeDays.includes(dayString)))
     }, [dayString, participants, selectedCharacter, user])
+
+    useEffect(() => {
+        setIsHighlight(filterResult?.length && filterResult.find((x: string) => x === dayString))
+    }, [dayString, filterResult, participants])
 
     const handleMyFreeDayChange = () => {
         if (!isMyFreeDay) {
@@ -53,7 +58,8 @@ export default function CalendarDay({ day, availableDates }: any) {
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
                     bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${120}|${headcountRatio}%|90%)@light
-                    ~background-color|.2s overflow:clip
+                    ${isHighlight ? 'transform:translate(-10,0) transform:translate(-5,-10)@sm b:1 b:solid b:#46841c b:#68d14b@light bg:#003602! bg:#ccf3ba!@light box-shadow:5|10|5|black/.2' : ''}
+                    ~background-color|.2s,transform|.2s overflow:clip r:2
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
             onClick={() => available && handleMyFreeDayChange()}>

@@ -8,7 +8,7 @@ export default function CalendarAvatar({ className, displayName, src }: any) {
         <Tooltip.Provider>
             <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                    <img className={`${className ?? ''} @transition-up|.2s`} src={src ?? ''} alt={displayName ?? ''} />
+                    <img className={`${className ?? ''} @transition-up|.2s w:full h:full`} src={src ?? ''} alt={displayName ?? ''} />
                 </Tooltip.Trigger>
                 <Tooltip.Portal>
                     <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
