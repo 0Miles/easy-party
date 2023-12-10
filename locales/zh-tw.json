@@ -45,5 +45,7 @@
     "Permission Denied": "沒有權限",
     "Only the original creator can edit": "只有原建立者可以編輯",
     "Edit": "編輯",
-    "dates match": "個日期符合"
+    "people have provided available dates": "個人提供了有空的日期",
+    "Someone available for n days": "{0} 有 {1} 天有空",
+    "Selected n people are available on n dates at the same time": "選取的 {0} 個人，有 {1} 天同時有空"
 }

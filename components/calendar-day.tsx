@@ -6,7 +6,6 @@ import { format } from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
 import { PartyContext } from './page-client/party-client'
 import { updateParticipantToParty } from '@/lib/firebase/firestore'
-import * as Tooltip from '@radix-ui/react-tooltip'
 import CalendarAvatar from './calendar-avatar'
 
 export default function CalendarDay({ day, availableDates }: any) {

@@ -1,5 +1,7 @@
 {
     "index title": "Discover Your Shared Moments!",
     "index subtitle": "Wherever, Whenever –",
-    "index subtitle2": "Easy Party Makes Planning Perfect Gatherings Effortless"
+    "index subtitle2": "Easy Party Makes Planning Perfect Gatherings Effortless",
+    "Someone available for n days": "{0} available for {1} days",
+    "Selected n people are available on n dates at the same time": "Selected {0} people are available on {1} dates at the same time"
 }
