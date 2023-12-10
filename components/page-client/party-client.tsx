@@ -9,6 +9,7 @@ import defaultImage from '@/public/images/default.png'
 import Image from 'next/image'
 import CharacterSelector from '../character-selector'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 export default function PartyClient({ locale, party }: any) {
     const { t } = getDictionary(locale)
@@ -48,7 +49,17 @@ export default function PartyClient({ locale, party }: any) {
                     {
                         !!party &&
                         <>
-                            <div className="flex {flex-wrap:wrap}@<sm mb:50 bg:gray-10 bg:gray-90@light r:3">
+                            <div className="rel flex {flex-wrap:wrap}@<sm mb:50 bg:gray-10 bg:gray-90@light r:3">
+                                {
+                                    user.uid === party.createdBy &&
+                                    <Link href={`/${locale}/${party.id}/edit`}>
+                                        <button className="abs top:16 right:16 r:3 p:4 
+                                                            cursor:pointer user-select:none overflow:clip
+                                                            ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                                        </button>
+                                    </Link>
+                                }
                                 <div className="rel flex flex:1|0|100% flex:1@sm  aspect-ratio:16/9 overflow:clip r:3">
                                     <Image src={party.image ?? defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                 </div>

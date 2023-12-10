@@ -32,6 +32,12 @@ export async function addParty(newParty: any) {
     }
 }
 
+export async function updateParty(partyId: string, party: any) {
+
+    const partyRef = doc(collection(db, 'party'), partyId)
+    await runTransaction(db, transaction => updateDataTransaction(transaction, partyRef, party))
+}
+
 export async function getParty(partyId: any): Promise<any> {
     const docRef = doc(db, 'party', partyId)
     const docSnap = await getDoc(docRef)

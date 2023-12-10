@@ -3,7 +3,7 @@
 import { getDictionary } from '@/locales/locale'
 import { useState, useRef, useEffect } from 'react'
 import ImageSelector from '../image-selector'
-import { addParty, updatePartyCharacters, updatePartyImage } from '@/lib/firebase/firestore'
+import { addParty, updateParty, updatePartyCharacters, updatePartyImage } from '@/lib/firebase/firestore'
 import { uploadImage } from '@/lib/firebase/storage'
 import * as Toast from '@radix-ui/react-toast'
 import Link from 'next/link'
@@ -17,22 +17,23 @@ import { nanoid } from 'nanoid'
 import { AvatarGenerator } from 'random-avatar-generator'
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
 
-export default function NewPartyClient({ locale }: any) {
+export default function EditPartyClient({ locale, party }: any) {
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
     const [step, setStep] = useState(1)
-    const [partyName, setPartyName] = useState('')
-    const [partyDesc, setPartyDesc] = useState('')
-    const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'))
-    const [endDate, setEndDate] = useState(format(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd'))
-    const [previewImg, setPreviewImg] = useState(null) as any
+    const [partyName, setPartyName] = useState(party?.name ?? '')
+    const [partyDesc, setPartyDesc] = useState(party?.desc ?? '')
+    const [startDate, setStartDate] = useState(party?.startDate ?? format(new Date(), 'yyyy-MM-dd'))
+    const [endDate, setEndDate] = useState(party?.endDate ?? format(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd'))
+
+    const [previewImageFile, setPreviewImageFile] = useState<File | null>(null)
 
     const [creating, setCreating] = useState(false)
-    const [partyId, setPartyId] = useState('')
+    const [completedPartyId, setCompletedPartyId] = useState('')
     const [partyLink, setPartyLink] = useState('')
-    const [partyImgUrl, setPartyImgUrl] = useState('')
+    const [partyPreviewImageUrl, setPartyPreviewImageUrl] = useState('')
 
-    const [characters, setCharacters] = useState<any[]>([])
+    const [characters, setCharacters] = useState<any[]>(party.characters ?? [])
 
     const addCharacterHandle = async () => {
         const generator = new AvatarGenerator()
@@ -44,7 +45,7 @@ export default function NewPartyClient({ locale }: any) {
                 separator: ' ',
                 length: 2
             }),
-            defaultAvatarUrl: generator.generateRandomAvatar(id)
+            avatarUrl: generator.generateRandomAvatar(id)
         })
         setCharacters([...characters])
     }
@@ -63,21 +64,32 @@ export default function NewPartyClient({ locale }: any) {
 
     const createParty = async () => {
         setCreating(true)
-        const partyId = await addParty({
-            name: partyName,
-            desc: partyDesc,
-            startDate,
-            endDate
-        })
+        let partyId
+        if (!party) {
+            partyId = await addParty({
+                name: partyName,
+                desc: partyDesc,
+                startDate,
+                endDate
+            })
+        } else {
+            partyId = party.id
+            updateParty(partyId, {
+                name: partyName,
+                desc: partyDesc,
+                startDate,
+                endDate
+            })
+        }
 
         const promises = []
 
-        if (previewImg) {
+        if (previewImageFile) {
             promises.push(
                 (async () => {
-                    const imageUrl = await uploadImage(partyId, previewImg)
+                    const imageUrl = await uploadImage(partyId, previewImageFile)
                     await updatePartyImage(partyId, imageUrl)
-                    setPartyImgUrl(imageUrl)
+                    setPartyPreviewImageUrl(imageUrl)
                 })()
             )
         }
@@ -91,15 +103,14 @@ export default function NewPartyClient({ locale }: any) {
                     })()
                 )
             } else {
-                character.avatarUrl = character.defaultAvatarUrl
+                character.avatarUrl = character.avatarUrl
             }
             delete character.avatarFile
-            delete character.defaultAvatarUrl
         }
         await Promise.allSettled(promises)
         await updatePartyCharacters(partyId, characters)
 
-        setPartyId(partyId)
+        setCompletedPartyId(partyId)
         setPartyLink(`${window.location.protocol}//${window.location.host}/${partyId}`)
         setCreating(false)
     }
@@ -111,7 +122,14 @@ export default function NewPartyClient({ locale }: any) {
                 <PleaseSignIn locale={locale} />
             }
             {
-                !!user &&
+                party && user && party.createdBy !== user.uid &&
+                <div className="flex flex:col justify-content:center align-items:center p:48 p:16@<sm overflow:clip">
+                    <h1 className="mt:60 f:52 f:36@<sm">{t('Permission Denied')}</h1>
+                    <h2 className="mt:30 mb:60 f:28 f:16@<sm font-weight:normal">{t('Only the original creator can edit')}</h2>
+                </div>
+            }
+            {
+                !!user && (!party || party.createdBy === user.uid) &&
                 <div className="p:48 p:16@<sm overflow:clip">
                     {
                         step === 1 &&
@@ -280,7 +298,8 @@ export default function NewPartyClient({ locale }: any) {
                             <div className="f:24 mb:40 f:16@<sm">{t('The preview image will appear on the invitation link and date selection page')}</div>
 
                             <ImageSelector className="mb:60 aspect-ratio:16/9 max-w:580"
-                                onChange={(data: any) => { setPreviewImg(data) }}
+                                onChange={(data: any) => { setPreviewImageFile(data) }}
+                                defaultImage={party?.image}
                                 locale={locale}
                                 placeholder={
                                     <p className="f:18 fg:gray-80 fg:gray-10@light">
@@ -332,7 +351,7 @@ export default function NewPartyClient({ locale }: any) {
                                                 <CharacterCreator
                                                     className="flex:1 max-w:300"
                                                     defaultName={character.name}
-                                                    defaultAvatar={character.defaultAvatarUrl}
+                                                    defaultAvatar={character.avatarUrl}
                                                     onChange={(data: any) => {
                                                         character.name = data.name
                                                         character.avatarFile = data.avatarFile
@@ -398,7 +417,7 @@ export default function NewPartyClient({ locale }: any) {
                             }
 
                             {
-                                !creating && partyId &&
+                                !creating && completedPartyId &&
                                 <div className="flex flex:col align-items:center @transition-up|.3s">
                                     <div className="f:36 f:28@<sm mb:30">
                                         {t('Completed')}!
@@ -406,7 +425,7 @@ export default function NewPartyClient({ locale }: any) {
                                     <Link href={partyLink}>
                                         <div className="max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
                                             <div className="rel max-w:500 aspect-ratio:16/9 overflow:clip">
-                                                <Image src={partyImgUrl ? partyImgUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
+                                                <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                             </div>
                                             <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
                                             <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>

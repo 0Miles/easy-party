@@ -1,4 +1,4 @@
-import NewPartyClient from '@/components/page-client/new-party-client'
+import EditPartyClient from '@/components/page-client/edit-party-client'
 import { getDictionary } from '@/locales/locale'
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -19,7 +19,7 @@ export default function NewParty({ params: { locale } }: any) {
     return (
 
         <>
-            <NewPartyClient locale={locale} />
+            <EditPartyClient locale={locale} />
         </>
     )
 }

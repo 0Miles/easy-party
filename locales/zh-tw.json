@@ -40,5 +40,8 @@
     "None of the above?": "不是以上任何人嗎?",
     "Please add new characters": "請新增角色",
     "Let friends choose one of the characters and start directly without signing in": "讓朋友們不需登入，選用其中一個角色就可以直接開始",
-    "Add Character": "新增角色"
+    "Add Character": "新增角色",
+    "Permission Denied": "沒有權限",
+    "Only the original creator can edit": "只有原建立者可以編輯",
+    "Edit": "編輯"
 }

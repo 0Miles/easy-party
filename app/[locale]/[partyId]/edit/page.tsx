@@ -1,21 +1,13 @@
-import { cache } from 'react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getParty } from '@/lib/firebase/firestore'
-import PartyClient from '@/components/page-client/party-client'
-
-export const getPartyData = cache(async (partyId: string) => {
-    const party = await getParty(partyId)
-    if (party.timestamp) {
-        delete party.timestamp
-    }
-    return party
-})
+import EditPartyClient from '@/components/page-client/edit-party-client'
+import { getPartyData } from '../page'
+import { getDictionary } from '@/locales/locale'
 
 export async function generateMetadata(
     { params }: any
 ): Promise<Metadata> {
-    
+    const { t } = getDictionary(params.locale)
     const party = await getPartyData(params.partyId)
 
     if (!party) {
@@ -23,7 +15,7 @@ export async function generateMetadata(
     }
 
     return {
-        title: party.name + ' | Easy Party',
+        title: t('Edit') + ' ' + party.name + ' | Easy Party',
         description: party.desc ?? '',
         openGraph: {
             images: [party.image ?? '/images/default.png'],
@@ -40,7 +32,7 @@ export default async function PartyPage({ params: { locale, partyId } }: any) {
 
     return (
         <>
-            <PartyClient locale={locale} party={party} />
+            <EditPartyClient locale={locale} party={party} />
         </>
     )
 }
