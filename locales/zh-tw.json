@@ -32,5 +32,13 @@
     "Completed": "完成",
     "Copied": "已複製",
     "Please sign in first": "請先登入",
-    "You need to sign in to proceed with subsequent operations": "需要登入才能進行後續操作"
+    "You need to sign in to proceed with subsequent operations": "需要登入才能進行後續操作",
+    "Currently logged in character": "目前登入的角色",
+    "Change": "變更",
+    "Select an existing character to continue": "選擇現有角色繼續",
+    "Continue with a signed in Google Account": "使用已登入的 Google 帳戶繼續",
+    "None of the above?": "不是以上任何人嗎?",
+    "Please add new characters": "請新增角色",
+    "Let friends choose one of the characters and start directly without signing in": "讓朋友們不需登入，選用其中一個角色就可以直接開始",
+    "Add Character": "新增角色"
 }

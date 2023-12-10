@@ -54,7 +54,7 @@ export default {
         'transition-right': {
             from: {
                 opacity: 0,
-                translate: '0rem 30%',
+                translate: '-30% 0',
                 'pointer-events': 'none'
             },
             to: {

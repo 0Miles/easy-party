@@ -21,8 +21,8 @@ service cloud.firestore {
         match /participant/{participantId} {
           allow read;
           allow create: if request.auth != null;
-          allow update: if request.auth != null
-                        && request.resource.data.uid == request.auth.uid;
+          allow update: if (request.auth != null && request.resource.data.uid == request.auth.uid)
+                           || request.resource.data.characterId != null;
         }
     }
   }

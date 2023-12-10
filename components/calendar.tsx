@@ -9,7 +9,7 @@ import CalendarMonth from './calendar-month'
 
 export const CalendarContext: any = createContext<any>(null)
 
-export default function Calendar({ party }: any) {
+export default function Calendar({ party, selectedCharacter }: any) {
 
     const { user } = useUserSession()
     const [loading, setLoading] = useState<boolean>(true)
@@ -25,7 +25,11 @@ export default function Calendar({ party }: any) {
             (results) => {
                 setParticipants(results ?? [])
                 if (loading) {
-                    setMyFreeDays((results ?? []).find((x: any) => x.uid === user.uid)?.freeDays ?? [])
+                    setMyFreeDays((results ?? [])
+                        .find((x: any) => 
+                            selectedCharacter.googleUser && x.uid === user.uid
+                            || !selectedCharacter.googleUser && x.characterId === selectedCharacter.id
+                            )?.freeDays ?? [])
                     setLoading(false)
                 }
             }
@@ -34,7 +38,7 @@ export default function Calendar({ party }: any) {
         return () => {
             unsubscribe()
         }
-    }, [loading, party, user])
+    }, [loading, party, selectedCharacter, user])
 
 
     const startDate = new Date(party.startDate)
@@ -51,7 +55,7 @@ export default function Calendar({ party }: any) {
     }
 
     return (
-        <CalendarContext.Provider value={{ myFreeDays, setMyFreeDays, participants, party, updateTimeout, setUpdateTimeout }}>
+        <CalendarContext.Provider value={{ myFreeDays, setMyFreeDays, participants, party, updateTimeout, setUpdateTimeout, selectedCharacter }}>
             <div>
                 {
                     !loading &&

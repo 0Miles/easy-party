@@ -10,7 +10,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 
 export default function CalendarDay({ day, availableDates }: any) {
 
-    const { myFreeDays, setMyFreeDays, party, participants, updateTimeout, setUpdateTimeout } = useContext<any>(CalendarContext)
+    const { myFreeDays, setMyFreeDays, party, participants, updateTimeout, setUpdateTimeout, selectedCharacter } = useContext<any>(CalendarContext)
     const { user } = useUserSession()
     const available = day && availableDates.find((x: Date) => x.getTime() === day.getTime())
     const dayString = day && format(day, 'yyyy-MM-dd')
@@ -19,8 +19,10 @@ export default function CalendarDay({ day, availableDates }: any) {
     const [otherFreeParticipants, setOtherFreeParticipants] = useState([])
 
     useEffect(() => {
-        setOtherFreeParticipants(participants.filter((x: any) => x.uid !== user.uid && x.freeDays.includes(dayString)))
-    }, [dayString, participants, user])
+        setOtherFreeParticipants(participants.filter((x: any) => (selectedCharacter.googleUser && x.uid !== user.uid
+                                                                 || !selectedCharacter.googleUser && x.characterId !== selectedCharacter.id)
+                                                                 && x.freeDays.includes(dayString)))
+    }, [dayString, participants, selectedCharacter, user])
 
     const handleMyFreeDayChange = () => {
         if (!isMyFreeDay) {
@@ -35,7 +37,7 @@ export default function CalendarDay({ day, availableDates }: any) {
         const newTimeout = setTimeout(async () => {
             await updateParticipantToParty(party.id, {
                 freeDays: myFreeDays
-            })
+            }, selectedCharacter)
         }, 1000)
         setUpdateTimeout(newTimeout)
     }
@@ -45,7 +47,7 @@ export default function CalendarDay({ day, availableDates }: any) {
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
                     ${isMyFreeDay ? 'bg:gray-20 bg:rgb(222,240,217)@light' : 'bg:gray-10 bg:gray-90@light'}
-                    ~background-color|.2s
+                    ~background-color|.2s overflow:clip
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
             onClick={() => available && handleMyFreeDayChange()}>
@@ -89,11 +91,11 @@ export default function CalendarDay({ day, availableDates }: any) {
                     <Tooltip.Provider>
                         <Tooltip.Root>
                             <Tooltip.Trigger asChild>
-                                <img src={user.photoURL ?? ''} alt={user.displayName ?? ''} />
+                                <img src={selectedCharacter.avatarUrl ?? ''} alt={selectedCharacter.name ?? ''} />
                             </Tooltip.Trigger>
                             <Tooltip.Portal>
                                 <Tooltip.Content className="r:3 p:8|16 f:16 bg:gray-20 bg:gray-95@light box-shadow:0|0|5|black/.5 box-shadow:0|0|5|gray-80/.5@light @transition-up|.2s" sideOffset={5}>
-                                    {user.displayName ?? ''}
+                                    {selectedCharacter.name ?? ''}
                                     <Tooltip.Arrow className="fill:gray-20 fill:gray-95@light" />
                                 </Tooltip.Content>
                             </Tooltip.Portal>
