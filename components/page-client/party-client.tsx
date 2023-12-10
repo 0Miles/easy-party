@@ -74,7 +74,7 @@ export default function PartyClient({ locale, party }: any) {
                                         {party.desc}
 
                                     </p>
-                                    <div className="flex flex-wrap:wrap {r:50%;36x36;mr:3}>img user-select:none mb:20">
+                                    <div className="flex flex-wrap:wrap {r:50%;36x36;mr:6}>img user-select:none mb:20">
                                         {
                                             participants.map(
                                                 (participant: any, index: number) =>
