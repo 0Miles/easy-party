@@ -22,8 +22,8 @@ export default function CharacterSelector({ locale, className, characters, onCha
                         <div key={index}
                             onClick={() => onChange && onChange(character)}
                             className={`
-                                flex align-items:center mb:32 @transition-up|.3s
-                                p:12|16 r:3
+                                flex align-items:center mb:8 @transition-up|.3s
+                                p:12|24 r:3
                                 bg:gray-10@<sm bg:gray-90@light@<sm cursor:pointer user-select:none overflow:clip
                                 ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                             `}>
@@ -44,8 +44,8 @@ export default function CharacterSelector({ locale, className, characters, onCha
                         {t('Continue with a signed in Google Account')}
                     </div>
                     <div className={`
-                                    flex align-items:center mb:32 @transition-up|.3s
-                                    p:12|16 r:3
+                                    flex align-items:center mb:8 @transition-up|.3s
+                                    p:12|24 r:3
                                     bg:gray-10@<sm bg:gray-90@light@<sm cursor:pointer user-select:none overflow:clip
                                     ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                 `}
