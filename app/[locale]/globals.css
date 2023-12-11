@@ -8,3 +8,7 @@ html.dark body {
     background-color: 121212;
     color: white;
 }
+
+#nprogress .spinner {
+    display: none !important;
+}

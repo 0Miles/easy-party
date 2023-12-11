@@ -2,11 +2,16 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { CSSProvider } from '@master/css.react'
 import config from '@/master.css'
+
 import { ThemeProvider } from '@/contexts/theme'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/firebase'
 import Header from '@/components/header'
 import { UserSessionProvider } from '@/contexts/user-session'
 
+import { RouteChangeListener } from '@/components/route-change-listener'
+import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
+NProgress.configure({ easing: 'ease', speed: 300, showSpinner: false })
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://easy-party.latte.today'),
@@ -33,6 +38,7 @@ export default async function RootLayout({
     return (
         <html lang={locale} suppressHydrationWarning style={{ display: 'none' }}>
             <body className="overflow-x:clip">
+                <RouteChangeListener />
                 <ThemeProvider>
                     <UserSessionProvider initialUser={currentUser?.toJSON()}>
                         <CSSProvider config={config}>

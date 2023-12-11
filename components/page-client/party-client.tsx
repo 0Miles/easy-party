@@ -5,6 +5,7 @@ import Calendar from '@/components/calendar'
 import PleaseSignIn from '@/components/please-sign-in'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
+import NProgress from 'nprogress'
 import CharacterSelector from '../character-selector'
 import { createContext, useEffect, useState } from 'react'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
@@ -29,6 +30,10 @@ export default function PartyClient({ locale, party }: any) {
     const [isResultView, setIsResultView] = useState<boolean>(false)
 
     useEffect(() => {
+        NProgress.done()
+    }, [])
+
+    useEffect(() => {
         const unsubscribe = getParticipantsSnapshotByPartyId(
             party.id,
             (results) => {
@@ -40,6 +45,7 @@ export default function PartyClient({ locale, party }: any) {
                             || !selectedCharacter.googleUser && x.characterId === selectedCharacter.id
                         )?.freeDays ?? [])
                     setLoading(false)
+                    NProgress.done()
                 }
             }
         )
@@ -65,6 +71,11 @@ export default function PartyClient({ locale, party }: any) {
         }
     }, [user, party])
 
+    const selectCharacterHandle = (character:any) => {
+        setSelectedCharacter(character)
+        NProgress.start()
+    }
+
     const changeCharacterHandle = () => {
         setSelectedCharacter(null)
         setLoading(true)
@@ -74,7 +85,7 @@ export default function PartyClient({ locale, party }: any) {
         <>
             {
                 !selectedCharacter && !!party.characters?.length &&
-                <CharacterSelector characters={party.characters} locale={locale} onChange={(character: any) => setSelectedCharacter(character)} />
+                <CharacterSelector characters={party.characters} locale={locale} onChange={selectCharacterHandle} />
             }
             {
                 !party.characters?.length &&

@@ -1,23 +1,28 @@
 'use client'
 
-import { getDictionary } from '@/locales/locale'
 import { useState, useRef, useEffect } from 'react'
-import ImageSelector from '../image-selector'
-import { addParty, updateParty, updatePartyCharacters, updatePartyImage } from '@/lib/firebase/firestore'
-import { uploadImage } from '@/lib/firebase/storage'
-import * as Toast from '@radix-ui/react-toast'
-import Link from 'next/link'
-import { useUserSession } from '@/contexts/user-session'
-import PleaseSignIn from '../please-sign-in'
 import Image from 'next/image'
-import defaultImage from '@/public/images/default.png'
 import { format } from 'date-fns'
-import CharacterCreator from '../character-creator'
-import { nanoid } from 'nanoid'
 import { AvatarGenerator } from 'random-avatar-generator'
+import { nanoid } from 'nanoid'
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
+import NProgress from 'nprogress'
+import * as Toast from '@radix-ui/react-toast'
+import { getDictionary } from '@/locales/locale'
+import { addParty, updateParty, updatePartyCharacters, updatePartyImage } from '@/lib/firebase/firestore'
+import { useUserSession } from '@/contexts/user-session'
+import { uploadImage } from '@/lib/firebase/storage'
+import defaultImage from '@/public/images/default.png'
+import ImageSelector from '../image-selector'
+import PleaseSignIn from '../please-sign-in'
+import CharacterCreator from '../character-creator'
 
 export default function EditPartyClient({ locale, party }: any) {
+
+    useEffect(() => {
+        NProgress.done()
+    }, [])
+
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
     const [step, setStep] = useState(1)
@@ -63,6 +68,7 @@ export default function EditPartyClient({ locale, party }: any) {
     }, [])
 
     const createParty = async () => {
+        NProgress.start()
         setCreating(true)
         let partyId
         if (!party) {
@@ -113,6 +119,7 @@ export default function EditPartyClient({ locale, party }: any) {
         setCompletedPartyId(partyId)
         setPartyLink(`${window.location.protocol}//${window.location.host}/${partyId}`)
         setCreating(false)
+        NProgress.done()
     }
 
     return (
@@ -422,16 +429,14 @@ export default function EditPartyClient({ locale, party }: any) {
                                     <div className="f:36 f:28@<sm mb:30">
                                         {t('Completed')}!
                                     </div>
-                                    <Link href={partyLink}>
-                                        <div className="max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
-                                            <div className="rel max-w:500 aspect-ratio:16/9 overflow:clip">
-                                                <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
-                                            </div>
-                                            <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
-                                            <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
-                                            <h2 className="f:16 px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
+                                    <div onClick={() => window.location.href = partyLink} className="cursor:pointer max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
+                                        <div className="rel max-w:500 aspect-ratio:16/9 overflow:clip">
+                                            <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
                                         </div>
-                                    </Link>
+                                        <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
+                                        <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
+                                        <h2 className="f:16 px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
+                                    </div>
                                     <div className="flex justify-content:center align-items:center gap:8 mb:30">
                                         <input className="h:42 p:8 r:3 b:1|solid border-color:white border-color:gray-80@light outline:none" type="text" readOnly value={partyLink} />
 

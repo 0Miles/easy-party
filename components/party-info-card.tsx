@@ -1,12 +1,13 @@
 'use client'
 /* eslint-disable @next/next/no-img-element */
 
+import { useContext, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import NProgress from 'nprogress'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary, formatString } from '@/locales/locale'
 import defaultImage from '@/public/images/default.png'
-import Image from 'next/image'
-import { useContext, useEffect, useState } from 'react'
-import Link from 'next/link'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import CalendarAvatar from './calendar-avatar'
 import { PartyContext } from './page-client/party-client'
@@ -36,7 +37,7 @@ export default function PartyInfoCard({ locale }: any) {
         <div className="rel flex {flex-wrap:wrap}@<sm bg:gray-10 bg:gray-90@light r:3">
             {
                 user?.uid === party.createdBy &&
-                <Link href={`/${locale}/${party.id}/edit`}>
+                <Link href={`/${locale}/${party.id}/edit`} onClick={() => NProgress.start()}>
                     <button className="abs top:16 right:16 r:3 p:4 
                                                                 cursor:pointer user-select:none overflow:clip
                                                                 ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light">
