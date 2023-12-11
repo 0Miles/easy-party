@@ -13,7 +13,7 @@ export default function Home({ params: { locale } }: any) {
         <>
             <NProgressDone />
             <div className="abs inset:0 flex align-items:center justify-content:center overflow-x:clip">
-                <section className="flex flex:col align-items:center justify-content:center pt:20 pb:42">
+                <section className="flex flex:col w:full align-items:center justify-content:center pt:20 pb:42">
                     <div className="
                             rel min-w:770 min-h:540 opacity:.35
                             {b:5|solid|gray-90;box-shadow:3|5|3|gray-20/.7;~transform|.35s;user-drag:none}>img
