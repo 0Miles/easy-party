@@ -47,5 +47,7 @@
     "Edit": "編輯",
     "people have provided available dates": "個人提供了有空的日期",
     "Someone available for n days": "{0} 有 {1} 天有空",
-    "Selected n people are available on n dates at the same time": "選取的 {0} 個人，有 {1} 天同時有空"
+    "Selected n people are available on n dates at the same time": "選取的 {0} 個人，有 {1} 天同時有空",
+    "View Results": "檢視結果",
+    "Back Calendar": "返回月曆"
 }

@@ -32,7 +32,7 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning style={{ display: 'none' }}>
-            <body>
+            <body className="overflow-x:clip">
                 <ThemeProvider>
                     <UserSessionProvider initialUser={currentUser?.toJSON()}>
                         <CSSProvider config={config}>

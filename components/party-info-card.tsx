@@ -33,7 +33,7 @@ export default function PartyInfoCard({ locale }: any) {
     }
 
     return (
-        <div className="rel flex {flex-wrap:wrap}@<sm mb:50 bg:gray-10 bg:gray-90@light r:3">
+        <div className="rel flex {flex-wrap:wrap}@<sm bg:gray-10 bg:gray-90@light r:3">
             {
                 user?.uid === party.createdBy &&
                 <Link href={`/${locale}/${party.id}/edit`}>
@@ -67,8 +67,8 @@ export default function PartyInfoCard({ locale }: any) {
                         {
                             participants.map(
                                 (participant: any, index: number) =>
-                                    <ToggleGroup.Item key={index} className="r:50% 36x36 mr:6 overflow:clip b:solid b:green b:green@light transform-origin:center|center ~transform|.2s {b:3;transform:scale(1.3)|translate(0,-4);box-shadow:0|3|3|black/.3}[data-state='on']" value={participant.uid ?? participant.characterId}>
-                                        <CalendarAvatar className="" src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
+                                    <ToggleGroup.Item key={index} className="r:50% 36x36 mr:6 overflow:clip b:solid b:green b:green@light transform-origin:center ~transform|.2s {b:3;transform:scale(1.3)|translate(0,-4);box-shadow:0|3|3|black/.3}[data-state='on']" value={participant.uid ?? participant.characterId}>
+                                        <CalendarAvatar src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
                                     </ToggleGroup.Item>
                             )
                         }

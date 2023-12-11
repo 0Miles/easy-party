@@ -9,6 +9,7 @@ import CharacterSelector from '../character-selector'
 import { createContext, useEffect, useState } from 'react'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
 import PartyInfoCard from '../party-info-card'
+import CalendarResult from '../calendar-result'
 
 export const PartyContext: any = createContext<any>(null)
 
@@ -24,6 +25,8 @@ export default function PartyClient({ locale, party }: any) {
 
     const [mustHave, setMustHave] = useState<string[]>([])
     const [filterResult, setFilterResult] = useState<string[]>([])
+
+    const [isResultView, setIsResultView] = useState<boolean>(false)
 
     useEffect(() => {
         const unsubscribe = getParticipantsSnapshotByPartyId(
@@ -82,42 +85,73 @@ export default function PartyClient({ locale, party }: any) {
                             <>
                                 <PartyInfoCard locale={locale} />
 
-                                {
-                                    !!party.characters?.length &&
-                                    <div className="flex mt:-40 justify-content:end align-items:center {flex:col;align-items:stretch}@<sm">
-                                        <div className="my:16 mr:10">
-                                            {t('Currently logged in character')}
-                                        </div>
-                                        <div className={`
+                                <div className="mb:-24 flex justify-content:space-between align-items:center {flex:col-reverse;align-items:stretch}@<sm">
+                                    {
+                                        !isResultView &&
+                                        <button className="p:8|16 p:16@<sm r:3 my:24 flex justify-content:center align-items:center gap:8
+                                                           bg:gray-10 bg:gray-90@light cursor:pointer user-select:none overflow:clip
+                                                           ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
+                                                        "
+                                                onClick={() => setIsResultView(true)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
+                                            {t('View Results')}
+                                        </button>
+                                    }
+
+                                    {
+                                            isResultView &&
+                                            <button className="p:8|16 p:16@<sm r:3 my:24 flex justify-content:center align-items:center gap:8
+                                                        bg:gray-10 bg:gray-90@light cursor:pointer user-select:none overflow:clip
+                                                        ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
+                                                    "
+                                                    onClick={() => setIsResultView(false)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" /></svg>
+                                                {t('Back Calendar')}
+                                            </button>
+                                    }
+
+                                    {
+                                        !!party.characters?.length &&
+                                        <div className="flex flex-wrap:wrap w:fit-content w:full@<sm">
+                                            <div className="my:16 mr:10">
+                                                {t('Currently logged in character')}
+                                            </div>
+                                            <div className={`
                                                             p:8|16
                                                             bg:gray-10@<sm bg:gray-90@light@<sm
-                                                            flex align-items:center @transition-up|.3s
+                                                            flex w:full@<sm align-items:center @transition-up|.3s
                                                             r:3 user-select:none overflow:clip
                                                             justify-content:space-between@<sm
                                                         `}>
-                                            <div className="flex align-items:center">
-                                                <div className="flex 36x36 r:50% flex:0|0|auto overflow:clip">
-                                                    <img className="w:full h:full object-fit:cover" src={selectedCharacter.avatarUrl} alt={selectedCharacter.name} />
+                                                <div className="flex align-items:center">
+                                                    <div className="flex 36x36 r:50% flex:0|0|auto overflow:clip">
+                                                        <img className="w:full h:full object-fit:cover" src={selectedCharacter.avatarUrl} alt={selectedCharacter.name} referrerPolicy="no-referrer" />
+                                                    </div>
+                                                    <div className="mx:8 f:18">
+                                                        {selectedCharacter.name}
+                                                    </div>
                                                 </div>
-                                                <div className="mx:8 f:18">
-                                                    {selectedCharacter.name}
-                                                </div>
-                                            </div>
-                                            <div className="
+                                                <div className="
                                                             p:4|8 p:8|16@<sm r:3 f:12 f:16@<sm
                                                             bg:gray-20 bg:gray-86@light cursor:pointer user-select:none overflow:clip
                                                             ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                                             "
-                                                onClick={() => setSelectedCharacter(null)}>
-                                                {t('Change')}
+                                                    onClick={() => setSelectedCharacter(null)}>
+                                                    {t('Change')}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                </div>
+
+                                {
+                                    !loading && !isResultView &&
+                                    <Calendar party={party} />
                                 }
 
                                 {
-                                    !loading &&
-                                    <Calendar party={party} />
+                                    !loading && isResultView &&
+                                    <CalendarResult party={party} />
                                 }
                             </>
                         }

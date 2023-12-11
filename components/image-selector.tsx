@@ -33,7 +33,7 @@ export default function ImageSelector({ locale, className, onChange, defaultImag
     return (
         <div className={`${className} ${isDragActive ? 'b:2 bg:gray/.2!' : ''} ~border-color|.3s,background-color|.3s bg:gray-20@dark bg:gray-80@light b:0|dashed|gray r:5 rel overflow:clip cursor:pointer`}>
             {selectedImage && (
-                <img className="abs object-fit:cover pointer-events:none" src={selectedImage} width="100%" height="100%" alt="Selected" />
+                <img className="abs object-fit:cover pointer-events:none" src={selectedImage} width="100%" height="100%" alt="Selected" referrerPolicy="no-referrer" />
             )}
 
             <div className="w:full h:full flex justify-content:center align-items:center " {...getRootProps()}>

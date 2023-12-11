@@ -56,9 +56,9 @@ export default function CalendarDay({ day, availableDates }: any) {
         <div className={`
                     ${!day ? 'hide@<xs' : ''}
                     ${available ? 'cursor:pointer' : 'opacity:.35 hide@<xs'}
-                    bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${120}|${headcountRatio}%|90%)@light
-                    ${isHighlight ? 'transform:translate(-10,0) transform:translate(-5,-10)@sm b:1 b:solid b:#46841c b:#68d14b@light bg:#003602! bg:#ccf3ba!@light box-shadow:5|10|5|black/.2' : ''}
-                    ~background-color|.2s,transform|.2s overflow:clip r:2
+                    bg:hsl(${20 + headcountRatio}|${headcountRatio}%|12%) bg:hsl(${20 + headcountRatio * .9}|${headcountRatio * .8}%|84%)@light
+                    ${isHighlight ? 'b:#356b11 b:#68d14b@light' : 'b:gray/.0'} b:3 b:solid
+                    ~background-color|.2s,border-color|.2s overflow:clip r:2
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
             onClick={() => available && handleMyFreeDayChange()}>
@@ -66,15 +66,15 @@ export default function CalendarDay({ day, availableDates }: any) {
             {
                 !!day &&
                 <div className="flex">
-                    <span className="mr:8">
+                    <div className="mr:8">
                         <span className="hide@xs">
                             {format(day, 'yyyy/MM/')}
                         </span>
                         {format(day, 'dd')}
-                    </span>
-                    <span className={`inline-block w:36 hide@xs ${['1', '7'].includes(format(day, 'e')) ? 'fg:red-70 fg:red-50@light' : ''}`}>
+                    </div>
+                    <div className={`w:36 hide@xs ${['1', '7'].includes(format(day, 'e')) ? 'fg:red-70 fg:red-50@light' : ''}`}>
                         {format(day, 'E')}
-                    </span>
+                    </div>
                 </div>
             }
             <div className="flex flex:1 align-items:end {r:50%;24x24;mr:-16;~margin-right|.2s}>img user-select:none">

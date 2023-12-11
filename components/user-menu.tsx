@@ -29,7 +29,7 @@ export default function UserMenu({ locale }: any) {
                             <DropdownMenu.Trigger asChild>
                                 <div className="flex user-select:none h:40 align-items:center justify-content:center gap:8 px:8 r:3 ~background|.3s|ease bg:gray-30:hover bg:gray-95:hover@light">
                                     <div className="26x26 r:50% overflow:clip">
-                                        <img src={user.photoURL ?? ''} alt={'avatar'} />
+                                        <img src={user.photoURL ?? ''} alt={'avatar'} referrerPolicy="no-referrer" />
                                     </div>
                                     <div>
                                         {user.displayName}
