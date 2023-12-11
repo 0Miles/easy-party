@@ -6,8 +6,8 @@ import nProgress from "nprogress"
 
 export default function CreateAPartyNowButton({ locale }: any) {
     const { t } = getDictionary(locale)
-    
-    return <Link href={`/${locale}/new`} onClick={() => nProgress.start()}>
+
+    return <Link className="user-drag:none" href={`/${locale}/new`} onClick={() => nProgress.start()}>
         <button className="
                             p:16|32 r:3
                             ~background|.2s

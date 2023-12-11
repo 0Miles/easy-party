@@ -38,7 +38,7 @@ export default function CalendarResultItem({ day, dayString, freeParticipants, n
                     </div>
                 </div>
             }
-            <div className="flex flex:1 flex-wrap:wrap mt:16 align-items:end user-select:none">
+            <div className="flex flex:1 flex-wrap:wrap mt:16 align-items:end">
 
                 {
                     freeParticipants.map(
@@ -58,7 +58,7 @@ export default function CalendarResultItem({ day, dayString, freeParticipants, n
                     )
                 }
             </div>
-            <div className="flex flex:1 flex-wrap:wrap mt:8 align-items:end user-select:none opacity:.3">
+            <div className="flex flex:1 flex-wrap:wrap mt:8 align-items:end opacity:.3">
                 {
                     notFreeParticipants.map(
                         (participant: any, index: number) =>

@@ -94,6 +94,8 @@ export default function EditPartyClient({ locale, party }: any) {
                     setPartyPreviewImageUrl(imageUrl)
                 })()
             )
+        } else if (party?.image) {
+            setPartyPreviewImageUrl(party?.image)
         }
 
         for (const character of characters) {
@@ -146,6 +148,7 @@ export default function EditPartyClient({ locale, party }: any) {
                                     border-color:blue-50:focus border-color:sky-60:focus@light
                                     mb:30
                                     "
+                                autoComplete="off"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && partyName) {
                                         e.preventDefault();
@@ -265,6 +268,7 @@ export default function EditPartyClient({ locale, party }: any) {
                                     border-color:blue-50:focus border-color:sky-60:focus@light
                                     mb:30 resize:vertical
                                     "
+                                autoComplete="off"
                                 value={partyDesc} onChange={(e) => setPartyDesc(e.target.value)}
                                 id="desc" placeholder={t('Enter party description')}>
 
@@ -429,8 +433,8 @@ export default function EditPartyClient({ locale, party }: any) {
 
                                         <div className="flex flex:col align-items:center {flex:2;w:0;ml:100}@sm">
                                             <div onClick={() => window.location.href = partyLink} className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
-                                                <div className="w:full aspect-ratio:16/9 overflow:clip">
-                                                    <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} className="w:full h:full object-fit:cover" alt="preview" />
+                                                <div className="rel w:full aspect-ratio:16/9 overflow:clip">
+                                                    <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} fill sizes="100%" className="object-fit:cover" alt="preview" loading="eager" />
                                                 </div>
                                                 <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
                                                 <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
