@@ -37,7 +37,7 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning style={{ display: 'none' }}>
-            <body className="overflow-x:clip user-select:none">
+            <body className="overflow-x:clip user-select:none w:full h:full">
                 <RouteChangeListener />
                 <ThemeProvider>
                     <UserSessionProvider initialUser={currentUser?.toJSON()}>

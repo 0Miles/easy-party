@@ -138,7 +138,7 @@ export default function EditPartyClient({ locale, party }: any) {
                 <div className="p:48 p:16@<sm overflow:clip">
                     {
                         step === 1 &&
-                        <div className="mt:80 flex flex:col @transition-left|.3s">
+                        <div className="mt:30 flex flex:col @transition-left|.3s">
                             <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/5)</span></div>
                             <label htmlFor="name" className="f:36 f:28@<sm mb:40">{t('First, enter a party name')}</label>
                             <input className="
@@ -178,7 +178,7 @@ export default function EditPartyClient({ locale, party }: any) {
                     }
                     {
                         step === 2 &&
-                        <div className="mt:80 flex flex:col @transition-left|.3s">
+                        <div className="mt:30 flex flex:col @transition-left|.3s">
                             <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/5)</span></div>
                             <div className="f:36 f:28@<sm mb:10">{t('Please set the party time range')}</div>
                             <div className="f:24 f:16@<sm mb:40">{t('Select a time range and let participants choose when they are available')}</div>
@@ -257,7 +257,7 @@ export default function EditPartyClient({ locale, party }: any) {
                     }
                     {
                         step === 3 &&
-                        <div className="mt:80 flex flex:col @transition-left|.3s">
+                        <div className="mt:30 flex flex:col @transition-left|.3s">
                             <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/5)</span></div>
                             <label htmlFor="desc" className="f:36 f:28@<sm mb:10">{t('Please enter a description of this party')}</label>
                             <label htmlFor="desc" className="f:24 f:16@<sm mb:40">{t('For example: party location, itinerary...')}</label>
@@ -299,7 +299,7 @@ export default function EditPartyClient({ locale, party }: any) {
                     }
                     {
                         step === 4 &&
-                        <div className="mt:80 flex flex:col @transition-left|.3s">
+                        <div className="mt:30 flex flex:col @transition-left|.3s">
                             <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/5)</span></div>
                             <div className="f:36 mb:10 f:28@<sm">{t('Please upload a preview image')}</div>
                             <div className="f:24 mb:40 f:16@<sm">{t('The preview image will appear on the invitation link and date selection page')}</div>
@@ -341,7 +341,7 @@ export default function EditPartyClient({ locale, party }: any) {
                     }
                     {
                         step === 5 &&
-                        <div className="mt:80 flex flex:col @transition-left|.3s">
+                        <div className="mt:30 flex flex:col @transition-left|.3s">
                             <div className="mb:8">{t(`Step ${step}`)} <span className="fg:gray-50">({step}/5)</span></div>
                             <div className="f:36 mb:10 f:28@<sm">{t('Please add new characters')}</div>
                             <div className="f:24 mb:40 f:16@<sm">{t('Let friends choose one of the characters and start directly without signing in')}</div>
@@ -401,7 +401,7 @@ export default function EditPartyClient({ locale, party }: any) {
                     }
                     {
                         step === 6 &&
-                        <div className="mt:80 mt:40@<sm flex flex:col justify-content:center @transition-left|.3s">
+                        <div className="mt:30 mt:40@<sm flex flex:col justify-content:center @transition-left|.3s">
 
                             {
                                 creating &&
