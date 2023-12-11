@@ -10,8 +10,8 @@ import { UserSessionProvider } from '@/contexts/user-session'
 
 import { RouteChangeListener } from '@/components/route-change-listener'
 import 'nprogress/nprogress.css'
-import NProgress from 'nprogress'
-NProgress.configure({ easing: 'ease', speed: 300, showSpinner: false })
+import nProgress from 'nprogress'
+nProgress.configure({ easing: 'ease', speed: 300, showSpinner: false })
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://easy-party.latte.today'),

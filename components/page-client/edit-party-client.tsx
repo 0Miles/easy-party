@@ -6,7 +6,8 @@ import { format } from 'date-fns'
 import { AvatarGenerator } from 'random-avatar-generator'
 import { nanoid } from 'nanoid'
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
-import NProgress from 'nprogress'
+import nProgress from 'nprogress'
+import QRCode from 'react-qr-code'
 import * as Toast from '@radix-ui/react-toast'
 import { getDictionary } from '@/locales/locale'
 import { addParty, updateParty, updatePartyCharacters, updatePartyImage } from '@/lib/firebase/firestore'
@@ -18,11 +19,6 @@ import PleaseSignIn from '../please-sign-in'
 import CharacterCreator from '../character-creator'
 
 export default function EditPartyClient({ locale, party }: any) {
-
-    useEffect(() => {
-        NProgress.done()
-    }, [])
-
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
     const [step, setStep] = useState(1)
@@ -68,7 +64,7 @@ export default function EditPartyClient({ locale, party }: any) {
     }, [])
 
     const createParty = async () => {
-        NProgress.start()
+        nProgress.start()
         setCreating(true)
         let partyId
         if (!party) {
@@ -119,7 +115,7 @@ export default function EditPartyClient({ locale, party }: any) {
         setCompletedPartyId(partyId)
         setPartyLink(`${window.location.protocol}//${window.location.host}/${partyId}`)
         setCreating(false)
-        NProgress.done()
+        nProgress.done()
     }
 
     return (
@@ -426,42 +422,53 @@ export default function EditPartyClient({ locale, party }: any) {
                             {
                                 !creating && completedPartyId &&
                                 <div className="flex flex:col align-items:center @transition-up|.3s">
-                                    <div className="f:36 f:28@<sm mb:30">
+                                    <div className="f:36 f:28@<sm mb:40">
                                         {t('Completed')}!
                                     </div>
-                                    <div onClick={() => window.location.href = partyLink} className="cursor:pointer max-w:500 mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
-                                        <div className="rel max-w:500 aspect-ratio:16/9 overflow:clip">
-                                            <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} layout="fill" objectFit="cover" alt="preview" />
+                                    <div className="flex flex:col-reverse@<sm align-items:center w:full">
+
+                                        <div className="flex flex:col align-items:center {flex:2;w:0;ml:100}@sm">
+                                            <div onClick={() => window.location.href = partyLink} className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
+                                                <div className="w:full aspect-ratio:16/9 overflow:clip">
+                                                    <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} className="w:full h:full object-fit:cover" alt="preview" />
+                                                </div>
+                                                <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
+                                                <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
+                                                <h2 className="f:16 px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
+                                            </div>
                                         </div>
-                                        <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
-                                        <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>
-                                        <h2 className="f:16 px:16 mb:12 font-weight:normal fg:gray-80 fg:gray-40@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyDesc}</h2>
-                                    </div>
-                                    <div className="flex justify-content:center align-items:center gap:8 mb:30">
-                                        <input className="h:42 p:8 r:3 b:1|solid border-color:white border-color:gray-80@light outline:none" type="text" readOnly value={partyLink} />
 
-                                        <button className="
-                                                    h:42 p:8 r:3
-                                                    b:1|solid border-color:white border-color:gray-80@light
-                                                    bg:gray/.2:hover bg:gray/.3:active ~background|.2s
-                                                "
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(partyLink)
-                                                setOpen(false)
-                                                window.clearTimeout(timerRef.current)
-                                                timerRef.current = window.setTimeout(() => {
-                                                    setOpen(true)
-                                                }, 100)
-                                            }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg>
-                                        </button>
+                                        <div className="flex flex:1 flex:col align-items:center {align-items:start;mr:180}@sm mx:32">
+                                            <div className="p:16 b:1 b:solid b:white b:gray-80@light r:3 mb:16">
+                                                <QRCode size={128} className="min-w:128 fill:transparent>path:nth-child(1) fill:white>path:nth-child(2) fill:black>path:nth-child(2)@light" value={partyLink} />
+                                            </div>
+                                            <div className="flex justify-content:stretch align-items:center gap:8 mb:30">
+                                                <input className="flex flex:1 w:full h:42 p:8 r:3 b:1|solid border-color:white border-color:gray-80@light outline:none" type="text" readOnly value={partyLink} />
 
-                                        <Toast.Provider swipeDirection="down">
-                                            <Toast.Root className="p:16 bg:gray-10 bg:gray-90@light r:3 text-align:center @transition-down|.3s" open={open} onOpenChange={setOpen}>
-                                                {t('Copied')}
-                                            </Toast.Root>
-                                            <Toast.Viewport className="fixed top:0 left:calc(50vw-100px) flex flex:col p:16 gap:10 w:200 m:0 list-style:none z:999 outline:none" />
-                                        </Toast.Provider>
+                                                <button className="
+                                                                h:42 p:8 r:3
+                                                                b:1|solid border-color:white border-color:gray-80@light
+                                                                bg:gray/.2:hover bg:gray/.3:active ~background|.2s
+                                                            "
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(partyLink)
+                                                        setOpen(false)
+                                                        window.clearTimeout(timerRef.current)
+                                                        timerRef.current = window.setTimeout(() => {
+                                                            setOpen(true)
+                                                        }, 100)
+                                                    }}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" /><path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" /></svg>
+                                                </button>
+
+                                                <Toast.Provider swipeDirection="down">
+                                                    <Toast.Root className="p:16 bg:gray-10 bg:gray-90@light r:3 text-align:center @transition-down|.3s" open={open} onOpenChange={setOpen}>
+                                                        {t('Copied')}
+                                                    </Toast.Root>
+                                                    <Toast.Viewport className="fixed top:0 left:calc(50vw-100px) flex flex:col p:16 gap:10 w:200 m:0 list-style:none z:999 outline:none" />
+                                                </Toast.Provider>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }

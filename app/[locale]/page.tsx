@@ -1,23 +1,17 @@
-'use client'
-
-import { useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
-import NProgress from 'nprogress'
 import { getDictionary } from '@/locales/locale'
 import photo1 from '@/public/images/photo.jpg'
 import photo2 from '@/public/images/photo2.webp'
 import photo3 from '@/public/images/photo3.png'
+import NProgressDone from '@/components/nprogress-done'
+import CreateAPartyNowButton from '@/components/create-a-party-now-button'
 
 export default function Home({ params: { locale } }: any) {
     const { t } = getDictionary(locale)
 
-    useEffect(() => {
-        NProgress.done()
-    }, [])
-
     return (
         <>
+            <NProgressDone />
             <section className="flex flex:col align-items:center justify-content:center my:80 my:30@<sm overflow:clip">
                 <div className="
                         rel min-w:770 min-h:540 opacity:.35
@@ -33,16 +27,7 @@ export default function Home({ params: { locale } }: any) {
                     <h2 className="f:18@<sm font-weight:normal mb:10">{t('index subtitle')}</h2>
                     <h2 className="f:18@<sm font-weight:normal">{t('index subtitle2')}</h2>
                 </div>
-                <Link href={`/${locale}/new`} onClick={() => NProgress.start()}>
-                    <button className="
-                            p:16|32 r:3
-                            ~background|.2s
-                            bg:white fg:black bg:gray-70:hover@dark bg:gray-50:active@dark
-                            bg:black@light fg:white@light bg:gray-30:hover@light bg:gray-50:active@light
-                        ">
-                        {t('Create a party now')}
-                    </button>
-                </Link>
+                <CreateAPartyNowButton locale={locale} />
             </section>
         </>
     )

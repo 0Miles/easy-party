@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import EditPartyClient from '@/components/page-client/edit-party-client'
 import { getPartyData } from '../page'
 import { getDictionary } from '@/locales/locale'
+import NProgressDone from '@/components/nprogress-done'
 
 export async function generateMetadata(
     { params }: any
@@ -32,6 +33,7 @@ export default async function PartyPage({ params: { locale, partyId } }: any) {
 
     return (
         <>
+            <NProgressDone />
             <EditPartyClient locale={locale} party={party} />
         </>
     )

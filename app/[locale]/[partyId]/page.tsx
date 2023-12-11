@@ -3,10 +3,11 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getParty } from '@/lib/firebase/firestore'
 import PartyClient from '@/components/page-client/party-client'
+import NProgressDone from '@/components/nprogress-done'
 
 export const getPartyData = cache(async (partyId: string) => {
     const party = await getParty(partyId)
-    if (party.timestamp) {
+    if (party?.timestamp) {
         delete party.timestamp
     }
     return party
@@ -40,6 +41,7 @@ export default async function PartyPage({ params: { locale, partyId } }: any) {
 
     return (
         <>
+            <NProgressDone />
             <PartyClient locale={locale} party={party} />
         </>
     )

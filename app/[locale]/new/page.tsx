@@ -1,6 +1,7 @@
+import NProgressDone from '@/components/nprogress-done'
 import EditPartyClient from '@/components/page-client/edit-party-client'
 import { getDictionary } from '@/locales/locale'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Metadata } from 'next'
 
 export async function generateMetadata(
     { params }: any
@@ -13,12 +14,11 @@ export async function generateMetadata(
 }
 
 export default function NewParty({ params: { locale } }: any) {
-    const { t } = getDictionary(locale)
-
 
     return (
 
         <>
+            <NProgressDone />
             <EditPartyClient locale={locale} />
         </>
     )

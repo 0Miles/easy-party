@@ -5,7 +5,7 @@ import Calendar from '@/components/calendar'
 import PleaseSignIn from '@/components/please-sign-in'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
-import NProgress from 'nprogress'
+import nProgress from 'nprogress'
 import CharacterSelector from '../character-selector'
 import { createContext, useEffect, useState } from 'react'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
@@ -30,10 +30,6 @@ export default function PartyClient({ locale, party }: any) {
     const [isResultView, setIsResultView] = useState<boolean>(false)
 
     useEffect(() => {
-        NProgress.done()
-    }, [])
-
-    useEffect(() => {
         const unsubscribe = getParticipantsSnapshotByPartyId(
             party.id,
             (results) => {
@@ -45,7 +41,7 @@ export default function PartyClient({ locale, party }: any) {
                             || !selectedCharacter.googleUser && x.characterId === selectedCharacter.id
                         )?.freeDays ?? [])
                     setLoading(false)
-                    NProgress.done()
+                    nProgress.done()
                 }
             }
         )
@@ -73,7 +69,7 @@ export default function PartyClient({ locale, party }: any) {
 
     const selectCharacterHandle = (character:any) => {
         setSelectedCharacter(character)
-        NProgress.start()
+        nProgress.start()
     }
 
     const changeCharacterHandle = () => {
