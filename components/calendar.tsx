@@ -11,7 +11,7 @@ export default function Calendar({ party }: any) {
     const months = []
     const availableDates = eachDayOfInterval({ start: startDate, end: endDate })
 
-    let current = new Date()
+    let current = new Date(startDate)
     while (current <= endDate) {
         months.push(new Date(current))
         current.setMonth(current.getMonth() + 1)
