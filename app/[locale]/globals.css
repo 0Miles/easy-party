@@ -7,10 +7,7 @@ html {
 
 html.dark {
     color-scheme: dark;
-}
-
-html.dark body {
-    background-color: 121212;
+    background-color: #121212;
     color: white;
 }
 
