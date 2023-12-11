@@ -2,11 +2,11 @@
 
 import { eachDayOfInterval } from 'date-fns'
 import CalendarMonth from './calendar-month'
+import { useContext } from 'react'
+import { PartyContext } from './page-client/party-client'
 
-export default function Calendar({ party }: any) {
-
-    const startDate = new Date(party.startDate)
-    const endDate = new Date(party.endDate)
+export default function Calendar() {
+    const { startDate, endDate } = useContext<any>(PartyContext)
 
     const months = []
     const availableDates = eachDayOfInterval({ start: startDate, end: endDate })

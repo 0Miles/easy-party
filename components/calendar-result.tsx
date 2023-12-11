@@ -2,19 +2,15 @@
 
 import { eachDayOfInterval } from 'date-fns'
 import CalendarResultItem from './calendar-result-item'
-import { useUserSession } from '@/contexts/user-session'
 import { useContext } from 'react'
 import { PartyContext } from './page-client/party-client'
-import { format } from 'date-fns'
+import { format, startOfDay } from 'date-fns'
 
-export default function CalendarResult({ party }: any) {
-    const { user } = useUserSession()
-    const { selectedCharacter, participants, filterResult } = useContext<any>(PartyContext)
-
-    const startDate = new Date(party.startDate)
-    const endDate = new Date(party.endDate)
-
-    const availableDays = eachDayOfInterval({ start: startDate, end: endDate })
+export default function CalendarResult() {
+    const { participants, startDate, endDate } = useContext<any>(PartyContext)
+    const today = startOfDay(new Date())
+    const resultStartDay = startDate > today ? startDate : today
+    const availableDays = endDate < resultStartDay ? [] : eachDayOfInterval({ start: resultStartDay, end: endDate })
                                 .map(date => {
                                     const dayString = format(date, 'yyyy-MM-dd')
                                     return {

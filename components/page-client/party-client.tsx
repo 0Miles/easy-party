@@ -29,10 +29,21 @@ export default function PartyClient({ locale, party }: any) {
 
     const [isResultView, setIsResultView] = useState<boolean>(false)
 
+    const [startDate] = useState(new Date(party.startDate))
+    const [endDate] = useState(new Date(party.endDate))
+
     useEffect(() => {
         const unsubscribe = getParticipantsSnapshotByPartyId(
             party.id,
             (results) => {
+                results.forEach(participant => {
+                    participant.freeDays = participant.freeDays
+                        .filter((freeDay:string) => {
+                            const date = new Date(freeDay)
+                            return date >= startDate && date <= endDate
+                        })
+                })
+
                 setParticipants(results ?? [])
                 if (loading && selectedCharacter) {
                     setMyFreeDays((results ?? [])
@@ -49,7 +60,7 @@ export default function PartyClient({ locale, party }: any) {
         return () => {
             unsubscribe()
         }
-    }, [loading, party, selectedCharacter, user])
+    }, [endDate, loading, party, selectedCharacter, startDate, user])
 
     useEffect(() => {
         if (user === null) {
@@ -90,7 +101,7 @@ export default function PartyClient({ locale, party }: any) {
             }
             {
                 !!selectedCharacter &&
-                <PartyContext.Provider value={{ party, myFreeDays, setMyFreeDays, participants, updateTimeout, setUpdateTimeout, selectedCharacter, filterResult, setFilterResult, mustHave, setMustHave }}>
+                <PartyContext.Provider value={{ party, startDate, endDate, myFreeDays, setMyFreeDays, participants, updateTimeout, setUpdateTimeout, selectedCharacter, filterResult, setFilterResult, mustHave, setMustHave }}>
                     <div className="p:16 pb:60">
                         {
                             !!party &&
@@ -158,12 +169,12 @@ export default function PartyClient({ locale, party }: any) {
 
                                 {
                                     !loading && !isResultView &&
-                                    <Calendar party={party} />
+                                    <Calendar />
                                 }
 
                                 {
                                     !loading && isResultView &&
-                                    <CalendarResult party={party} />
+                                    <CalendarResult />
                                 }
                             </>
                         }

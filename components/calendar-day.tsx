@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import React, { useContext, useEffect, useState } from 'react'
-import { format } from 'date-fns'
+import { format, startOfDay} from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
 import { PartyContext } from './page-client/party-client'
 import { updateParticipantToParty } from '@/lib/firebase/firestore'
@@ -12,7 +12,7 @@ export default function CalendarDay({ day, availableDates }: any) {
 
     const { myFreeDays, setMyFreeDays, party, participants, updateTimeout, setUpdateTimeout, selectedCharacter, filterResult } = useContext<any>(PartyContext)
     const { user } = useUserSession()
-    const available = day && availableDates.find((x: Date) => x.getTime() === day.getTime())
+    const available = day && day >= startOfDay(new Date()) && availableDates.find((x: Date) => x.getTime() === day.getTime())
     const dayString = day && format(day, 'yyyy-MM-dd')
     const [isMyFreeDay, setIsMyFreeDay] = useState(!!myFreeDays.find((x: any) => x === dayString))
     const [isHighlight, setIsHighlight] = useState(false)

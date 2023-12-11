@@ -11,23 +11,28 @@ import defaultImage from '@/public/images/default.png'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import CalendarAvatar from './calendar-avatar'
 import { PartyContext } from './page-client/party-client'
+import { startOfDay } from 'date-fns'
 
 export default function PartyInfoCard({ locale }: any) {
     const { t } = getDictionary(locale)
     const { user } = useUserSession()
 
-    const { party, participants, filterResult, setFilterResult, mustHave, setMustHave } = useContext<any>(PartyContext)
+    const { party, startDate, endDate, participants, filterResult, setFilterResult, mustHave, setMustHave } = useContext<any>(PartyContext)
+
+    
 
     useEffect(() => {
+        const today = startOfDay(new Date())
+        const resultStartDay = startDate > today ? startDate : today
         const targetFreeDays = participants.filter((x: any) => mustHave.includes(x.uid) || mustHave.includes(x.characterId)).map((x: any) => x.freeDays)
         if (targetFreeDays.length) {
             setFilterResult(targetFreeDays[0].filter((x: string) =>
-                targetFreeDays.every((array: string[]) => array.includes(x))
+                targetFreeDays.every((array: string[]) => array.includes(x)) && new Date(x) >= resultStartDay && new Date(x) <= endDate
             ))
         } else {
             setFilterResult([])
         }
-    }, [mustHave, participants, setFilterResult])
+    }, [endDate, mustHave, participants, setFilterResult, startDate])
 
     const toggleGroupValueChangeHandle = (value: string[]) => {
         setMustHave(value)
