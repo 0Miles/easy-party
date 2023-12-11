@@ -65,6 +65,11 @@ export default function PartyClient({ locale, party }: any) {
         }
     }, [user, party])
 
+    const changeCharacterHandle = () => {
+        setSelectedCharacter(null)
+        setLoading(true)
+    }
+
     return (
         <>
             {
@@ -136,7 +141,7 @@ export default function PartyClient({ locale, party }: any) {
                                                             bg:gray-20 bg:gray-86@light cursor:pointer user-select:none overflow:clip
                                                             ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                                             "
-                                                    onClick={() => setSelectedCharacter(null)}>
+                                                    onClick={changeCharacterHandle}>
                                                     {t('Change')}
                                                 </div>
                                             </div>
