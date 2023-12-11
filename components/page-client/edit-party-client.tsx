@@ -431,7 +431,7 @@ export default function EditPartyClient({ locale, party }: any) {
                                     </div>
                                     <div className="flex flex:col-reverse@<sm align-items:center w:full">
 
-                                        <div className="flex flex:col align-items:center {flex:2;w:0;ml:100}@sm">
+                                        <div className="flex flex:col align-items:center w:full {flex:2;w:0;ml:100}@sm">
                                             <div onClick={() => window.location.href = partyLink} className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
                                                 <div className="rel w:full aspect-ratio:16/9 overflow:clip">
                                                     <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} fill sizes="100%" className="object-fit:cover" alt="preview" loading="eager" />
@@ -442,12 +442,12 @@ export default function EditPartyClient({ locale, party }: any) {
                                             </div>
                                         </div>
 
-                                        <div className="flex flex:1 flex:col align-items:center {align-items:start;mr:180}@sm mx:32">
+                                        <div className="flex flex:0 flex:col align-items:center {align-items:start;mr:180}@sm mx:32">
                                             <div className="p:16 b:1 b:solid b:white b:gray-80@light r:3 mb:16">
                                                 <QRCode size={128} className="min-w:128 fill:transparent>path:nth-child(1) fill:white>path:nth-child(2) fill:black>path:nth-child(2)@light" value={partyLink} />
                                             </div>
-                                            <div className="flex justify-content:stretch align-items:center gap:8 mb:30">
-                                                <input className="flex flex:1 w:full h:42 p:8 r:3 b:1|solid border-color:white border-color:gray-80@light outline:none" type="text" readOnly value={partyLink} />
+                                            <div className="flex justify-content:stretch align-items:center mb:30">
+                                                <input className="flex flex:1 w:full h:42 mr:8 p:8 r:3 b:1|solid border-color:white border-color:gray-80@light outline:none" type="text" readOnly value={partyLink} />
 
                                                 <button className="
                                                                 h:42 p:8 r:3
