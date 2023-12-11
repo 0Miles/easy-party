@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import { AvatarGenerator } from 'random-avatar-generator'
 import { nanoid } from 'nanoid'
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
@@ -25,7 +25,7 @@ export default function EditPartyClient({ locale, party }: any) {
     const [partyName, setPartyName] = useState(party?.name ?? '')
     const [partyDesc, setPartyDesc] = useState(party?.desc ?? '')
     const [startDate, setStartDate] = useState(party?.startDate ?? format(new Date(), 'yyyy-MM-dd'))
-    const [endDate, setEndDate] = useState(party?.endDate ?? format(new Date().setDate(new Date().getDate() + 1), 'yyyy-MM-dd'))
+    const [endDate, setEndDate] = useState(party?.endDate ?? format(addDays(new Date(), 30), 'yyyy-MM-dd'))
 
     const [previewImageFile, setPreviewImageFile] = useState<File | null>(null)
 
