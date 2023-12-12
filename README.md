@@ -1,5 +1,12 @@
 # Easy Party
 
+[![mastercss:2.0beta](https://img.shields.io/badge/Master_CSS-beta_2.0-d7a041)](https://github.com/master-co/css) 
+[![Next JS](https://img.shields.io/badge/Next-14-black?logo=next.js)](https://github.com/vercel/next.js) 
+[![Firebase](https://img.shields.io/badge/Firebase-039BE5?logo=Firebase&logoColor=white)](https://firebase.google.com/) 
+[![radix-ui:primitives](https://img.shields.io/badge/Radix_Primitives-black?logo=radix-ui)](https://github.com/radix-ui/primitives) 
+[![license:MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/0Miles/easy-party/blob/main/LICENSE) 
+  
+  
 ![preview](./docs/preview.png)
 
 約朋友出來聚餐用的
