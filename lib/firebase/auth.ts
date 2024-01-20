@@ -3,8 +3,7 @@ import {
     signInWithPopup,
     onAuthStateChanged as _onAuthStateChanged,
     NextOrObserver,
-    User,
-    signInWithRedirect,
+    User
 } from 'firebase/auth'
 
 import { auth } from '@/lib/firebase/firebase'
@@ -17,7 +16,7 @@ export async function signInWithGoogle() {
     const provider = new GoogleAuthProvider()
 
     try {
-        await signInWithRedirect(auth, provider)
+        await signInWithPopup(auth, provider)
     } catch (error) {
         console.error('Error signing in with Google', error)
     }
