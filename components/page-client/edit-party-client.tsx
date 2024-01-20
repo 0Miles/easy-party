@@ -106,8 +106,6 @@ export default function EditPartyClient({ locale, party }: any) {
                         character.avatarUrl = imageUrl
                     })()
                 )
-            } else {
-                character.avatarUrl = character.avatarUrl
             }
             delete character.avatarFile
         }
@@ -151,7 +149,7 @@ export default function EditPartyClient({ locale, party }: any) {
                                 autoComplete="off"
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && partyName) {
-                                        e.preventDefault();
+                                        e.preventDefault()
                                         setStep(2)
                                     }
                                 }}
@@ -432,7 +430,16 @@ export default function EditPartyClient({ locale, party }: any) {
                                     <div className="flex flex:col-reverse@<sm align-items:center w:full">
 
                                         <div className="flex flex:col align-items:center w:full {flex:2;w:0;ml:100}@sm">
-                                            <div onClick={() => window.location.href = partyLink} className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
+                                            <div 
+                                                onClick={() => window.location.href = partyLink} 
+                                                onKeyDown={(e) => {
+                                                    if (e.key === ' ' || e.keyCode === 32) {
+                                                        e.preventDefault()
+                                                        window.location.href = partyLink
+                                                    }
+                                                }}
+                                                tabIndex={0}
+                                                className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
                                                 <div className="rel w:full aspect-ratio:16/9 overflow:clip">
                                                     <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} fill sizes="100%" className="object-fit:cover" alt="preview" loading="eager" />
                                                 </div>

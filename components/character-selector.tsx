@@ -21,6 +21,13 @@ export default function CharacterSelector({ locale, className, characters, onCha
                     characters.map((character: any, index: number) =>
                         <div key={index}
                             onClick={() => onChange && onChange(character)}
+                            onKeyDown={(e) => {
+                                if (e.key === ' ' || e.keyCode === 32) {
+                                    e.preventDefault()
+                                    onChange && onChange(character)
+                                }
+                            }}
+                            tabIndex={0}
                             className={`
                                 flex align-items:center mb:8 @transition-up|.3s
                                 p:12|24 r:3
@@ -55,6 +62,19 @@ export default function CharacterSelector({ locale, className, characters, onCha
                             avatarUrl: user.photoURL,
                             name: user.displayName
                         })}
+
+                        onKeyDown={(e) => {
+                            if (e.key === ' ' || e.keyCode === 32) {
+                                e.preventDefault()
+                                onChange && onChange({
+                                    googleUser: true,
+                                    id: user.uid,
+                                    avatarUrl: user.photoURL,
+                                    name: user.displayName
+                                })
+                            }
+                        }}
+                        tabIndex={0}
                     >
 
                         <div className="flex 64x64 r:50% flex:0|0|auto overflow:clip">

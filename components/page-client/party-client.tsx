@@ -38,7 +38,7 @@ export default function PartyClient({ locale, party }: any) {
             (results) => {
                 results.forEach(participant => {
                     participant.freeDays = participant.freeDays
-                        .filter((freeDay:string) => {
+                        .filter((freeDay: string) => {
                             const date = new Date(freeDay)
                             return date >= startDate && date <= endDate
                         })
@@ -78,7 +78,7 @@ export default function PartyClient({ locale, party }: any) {
         }
     }, [user, party])
 
-    const selectCharacterHandle = (character:any) => {
+    const selectCharacterHandle = (character: any) => {
         setSelectedCharacter(character)
         nProgress.start()
     }
@@ -122,15 +122,15 @@ export default function PartyClient({ locale, party }: any) {
                                     }
 
                                     {
-                                            isResultView &&
-                                            <button className="p:8|16 p:16@<sm r:3 my:24 flex justify-content:center align-items:center gap:8
+                                        isResultView &&
+                                        <button className="p:8|16 p:16@<sm r:3 my:24 flex justify-content:center align-items:center gap:8
                                                         bg:gray-10 bg:gray-90@light cursor:pointer user-select:none overflow:clip
                                                         ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                                     "
-                                                    onClick={() => setIsResultView(false)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" /></svg>
-                                                {t('Back Calendar')}
-                                            </button>
+                                            onClick={() => setIsResultView(false)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" /></svg>
+                                            {t('Back Calendar')}
+                                        </button>
                                     }
 
                                     {
@@ -159,7 +159,15 @@ export default function PartyClient({ locale, party }: any) {
                                                             bg:gray-20 bg:gray-86@light cursor:pointer user-select:none overflow:clip
                                                             ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                                             "
-                                                    onClick={changeCharacterHandle}>
+                                                    onClick={changeCharacterHandle}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === ' ' || e.keyCode === 32) {
+                                                            e.preventDefault()
+                                                            changeCharacterHandle()
+                                                        }
+                                                    }}
+                                                    tabIndex={0}
+                                                >
                                                     {t('Change')}
                                                 </div>
                                             </div>

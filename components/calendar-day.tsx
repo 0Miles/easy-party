@@ -61,7 +61,14 @@ export default function CalendarDay({ day, availableDates }: any) {
                     ~background-color|.2s,border-color|.2s overflow:clip r:2
                     p:8 text-align:left min-h:80 flex flex:col mr:2:hover>div>img
                 `}
-            onClick={() => available && handleMyFreeDayChange()}>
+            onClick={() => available && handleMyFreeDayChange()}
+            onKeyDown={(e) => {
+                if ((e.key === ' ' || e.keyCode === 32)) {
+                    e.preventDefault()
+                    available && handleMyFreeDayChange()
+                }
+            }}
+            tabIndex={0}>
 
             {
                 !!day &&
