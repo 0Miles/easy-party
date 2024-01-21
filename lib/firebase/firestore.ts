@@ -5,11 +5,9 @@ import {
     getDocs,
     doc,
     getDoc,
-    updateDoc,
     orderBy,
     Timestamp,
     runTransaction,
-    where,
     addDoc,
     Transaction,
     DocumentReference,
@@ -28,7 +26,7 @@ export async function addParty(newParty: any) {
         const docRef = await addDoc(collection(db, 'party'), newParty)
         return docRef.id
     } else {
-        throw 'User is not logged in'
+        throw new Error('User is not logged in')
     }
 }
 
@@ -78,7 +76,7 @@ const updateDataTransaction = async (
 
 export async function updateParticipantToParty(partyId: string, participantData: any, character: any) {
 
-    if (!!character.googleUser) {
+    if (character.googleUser) {
 
         const auth = getAuth()
         if (auth.currentUser) {
@@ -91,7 +89,7 @@ export async function updateParticipantToParty(partyId: string, participantData:
                 updateParticipant(transaction, newParticipantDocRef, participantData)
             )
         } else {
-            throw 'User is not logged in'
+            throw new Error('User is not logged in')
         }
     } else {
         const newParticipantDocRef = doc(collection(db, `party/${partyId}/participant`), character.id)

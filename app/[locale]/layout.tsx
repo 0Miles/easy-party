@@ -29,8 +29,8 @@ export default async function RootLayout({
     children,
     params
 }: {
-    children: React.ReactNode,
-    params: any
+    readonly children: React.ReactNode,
+    readonly params: any
 }) {
     const { currentUser } = await getAuthenticatedAppForUser()
     const { locale } = params

@@ -1,7 +1,6 @@
 'use client'
 
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
 import SignInButton from './sign-in-button'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
@@ -19,12 +18,12 @@ export default function CharacterSelector({ locale, className, characters, onCha
                 {
                     !!characters?.length &&
                     characters.map((character: any, index: number) =>
-                        <div key={index}
-                            onClick={() => onChange && onChange(character)}
+                        <div key={character.id}
+                            onClick={() => onChange?.(character)}
                             onKeyDown={(e) => {
                                 if (e.key === ' ' || e.keyCode === 32) {
                                     e.preventDefault()
-                                    onChange && onChange(character)
+                                    onChange?.(character)
                                 }
                             }}
                             tabIndex={0}
@@ -56,7 +55,7 @@ export default function CharacterSelector({ locale, className, characters, onCha
                                     bg:gray-10@<sm bg:gray-90@light@<sm cursor:pointer user-select:none overflow:clip
                                     ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                 `}
-                        onClick={() => onChange && onChange({
+                        onClick={() => onChange?.({
                             googleUser: true,
                             id: user.uid,
                             avatarUrl: user.photoURL,
@@ -66,7 +65,7 @@ export default function CharacterSelector({ locale, className, characters, onCha
                         onKeyDown={(e) => {
                             if (e.key === ' ' || e.keyCode === 32) {
                                 e.preventDefault()
-                                onChange && onChange({
+                                onChange?.({
                                     googleUser: true,
                                     id: user.uid,
                                     avatarUrl: user.photoURL,
@@ -88,11 +87,9 @@ export default function CharacterSelector({ locale, className, characters, onCha
             }
             {
                 user === undefined &&
-                <>
-                    <div className="f:24 my:30 @transition-up|.3s">
-                        Loading...
-                    </div>
-                </>
+                <div className="f:24 my:30 @transition-up|.3s">
+                    Loading...
+                </div>
             }
             {
                 user !== undefined &&

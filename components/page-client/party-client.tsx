@@ -7,7 +7,7 @@ import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 import nProgress from 'nprogress'
 import CharacterSelector from '../character-selector'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
 import PartyInfoCard from '../party-info-card'
 import CalendarResult from '../calendar-result'
@@ -29,8 +29,8 @@ export default function PartyClient({ locale, party }: any) {
 
     const [isResultView, setIsResultView] = useState<boolean>(false)
 
-    const [startDate] = useState(new Date(party.startDate))
-    const [endDate] = useState(new Date(party.endDate))
+    const [startDate, _setStartDate] = useState(new Date(party.startDate))
+    const [endDate, _setEndDate] = useState(new Date(party.endDate))
 
     useEffect(() => {
         const unsubscribe = getParticipantsSnapshotByPartyId(
@@ -88,6 +88,32 @@ export default function PartyClient({ locale, party }: any) {
         setLoading(true)
     }
 
+    const contextValue = useMemo(() => ({
+        party,
+        startDate,
+        endDate,
+        myFreeDays,
+        setMyFreeDays,
+        participants,
+        updateTimeout,
+        setUpdateTimeout,
+        selectedCharacter,
+        filterResult,
+        setFilterResult,
+        mustHave,
+        setMustHave
+    }), [
+        party,
+        startDate,
+        endDate,
+        myFreeDays,
+        participants,
+        updateTimeout,
+        selectedCharacter,
+        filterResult,
+        mustHave,
+    ])
+
     return (
         <>
             {
@@ -101,7 +127,7 @@ export default function PartyClient({ locale, party }: any) {
             }
             {
                 !!selectedCharacter &&
-                <PartyContext.Provider value={{ party, startDate, endDate, myFreeDays, setMyFreeDays, participants, updateTimeout, setUpdateTimeout, selectedCharacter, filterResult, setFilterResult, mustHave, setMustHave }}>
+                <PartyContext.Provider value={contextValue}>
                     <div className="p:16 pb:60">
                         {
                             !!party &&
@@ -115,7 +141,7 @@ export default function PartyClient({ locale, party }: any) {
                                                            bg:gray-10 bg:gray-90@light cursor:pointer user-select:none overflow:clip
                                                            ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
                                                         "
-                                                onClick={() => setIsResultView(true)}>
+                                            onClick={() => setIsResultView(true)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
                                             {t('View Results')}
                                         </button>

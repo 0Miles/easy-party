@@ -73,7 +73,7 @@ export default function PartyInfoCard({ locale }: any) {
                         {
                             participants.map(
                                 (participant: any, index: number) =>
-                                    <ToggleGroup.Item key={index} className="r:50% 36x36 mr:6 overflow:clip b:solid b:green b:green@light transform-origin:center ~transform|.2s {b:3;transform:scale(1.3)|translate(0,-4);box-shadow:0|3|3|black/.3}[data-state='on']" value={participant.uid ?? participant.characterId}>
+                                    <ToggleGroup.Item key={participant.uid ?? participant.characterId} className="r:50% 36x36 mr:6 overflow:clip b:solid b:green b:green@light transform-origin:center ~transform|.2s {b:3;transform:scale(1.3)|translate(0,-4);box-shadow:0|3|3|black/.3}[data-state='on']" value={participant.uid ?? participant.characterId}>
                                         <CalendarAvatar src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
                                     </ToggleGroup.Item>
                             )

@@ -1,10 +1,9 @@
 'use client'
 
-import { eachDayOfInterval } from 'date-fns'
+import { eachDayOfInterval, format, startOfDay } from 'date-fns'
 import CalendarResultItem from './calendar-result-item'
 import { useContext } from 'react'
 import { PartyContext } from './page-client/party-client'
-import { format, startOfDay } from 'date-fns'
 
 export default function CalendarResult() {
     const { participants, startDate, endDate } = useContext<any>(PartyContext)
@@ -27,7 +26,7 @@ export default function CalendarResult() {
         <div className="@transition-up|.3s flex flex:col my:30 gap:8">
             {
                 availableDays.map((availableDay) => 
-                    <CalendarResultItem key={availableDay.day}
+                    <CalendarResultItem key={availableDay.day.getTime()}
                         day={availableDay.day}
                         dayString={availableDay.dayString}
                         freeParticipants={availableDay.freeParticipants}

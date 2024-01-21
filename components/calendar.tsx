@@ -21,7 +21,7 @@ export default function Calendar() {
     return (
         <div className="@transition-up|.3s">
             {
-                months.map((month, index) => <CalendarMonth key={index} month={month} availableDates={availableDates} />)
+                months.map((month) => <CalendarMonth key={month.getTime()} month={month} availableDates={availableDates} />)
             }
         </div>
     )

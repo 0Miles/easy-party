@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext, useMemo } from 'react'
 import {
     onAuthStateChanged
 } from '@/lib/firebase/auth'
@@ -31,11 +31,13 @@ export const UserSessionProvider = ({ initialUser, children }: any) => {
         })
     }, [router, user])
 
+    const contextValue = useMemo(() => ({
+        user
+    }), [user])
+
     return (
         <UserSessionContext.Provider
-            value={{
-                user
-            }} >
+            value={contextValue} >
             {children}
         </UserSessionContext.Provider>
     )

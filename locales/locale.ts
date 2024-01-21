@@ -16,7 +16,7 @@ export function getDictionary(locale: string) {
 }
 
 export const formatString = (template: string, ...args: any[]) => {
-    return template.replace(/{([0-9]+)}/g, function (match, index) {
+    return template.replace(/{(\d+)}/g, function (match, index) {
         return typeof args[index] === 'undefined' ? match : args[index]
     })
 }

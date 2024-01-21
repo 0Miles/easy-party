@@ -1,7 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-import Image from 'next/image'
 import UserMenu from './user-menu'
 import SwitchTheme from './switch-theme'
 

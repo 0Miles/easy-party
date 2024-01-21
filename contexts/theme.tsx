@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, createContext, useState, useContext } from 'react'
+import { useEffect, createContext, useState, useContext, useMemo, useCallback } from 'react'
 
 
 const MatchMediaDark = typeof matchMedia !== 'undefined' ? matchMedia?.('(prefers-color-scheme:dark)') : undefined
@@ -16,11 +16,11 @@ export const ThemeProvider = ({ children }: any) => {
     const [theme, setTheme] = useState(storageTheme ?? 'system')
     const [current, setCurrent] = useState(isDark ? 'dark' : 'light')
 
-    const switchTheme = (value: string) => {
+    const switchTheme = useCallback((value: string) => {
         if (value && value !== theme) {
             setTheme(value)
         }
-    }
+    }, [theme])
 
     useEffect(() => {
         const isDark = current === 'dark'
@@ -36,7 +36,7 @@ export const ThemeProvider = ({ children }: any) => {
         } else {
             setCurrent(theme)
         }
-        
+
         const onSystemThemeChange = (matchMediaDark: any) => {
             if (theme === 'system') {
                 setCurrent(matchMediaDark.matches ? 'dark' : 'light')
@@ -49,18 +49,20 @@ export const ThemeProvider = ({ children }: any) => {
         }
     }, [theme])
 
+    const contextValue = useMemo(() => ({
+        theme,
+        switchTheme,
+        current
+    }), [theme, switchTheme, current])
+
     return (
         <ThemeContext.Provider
-            value={{
-                theme,
-                switchTheme,
-                current
-            }} >
+            value={contextValue} >
             {children}
         </ThemeContext.Provider>
     )
 }
 
-export const useTheme = (): {theme: string, current: string, switchTheme: (value:string) => void} => {
+export const useTheme = (): { theme: string, current: string, switchTheme: (value: string) => void } => {
     return useContext(ThemeContext) as any
 }

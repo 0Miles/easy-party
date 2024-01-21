@@ -92,8 +92,7 @@ export default function CalendarDay({ day, availableDates }: any) {
                 {
                     otherFreeParticipants.map(
                         (participant: any, index: number) =>
-                            <CalendarAvatar key={index} className={`z:${998 - index}`} src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
-
+                            <CalendarAvatar key={participant.uid ?? participant.characterId} className={`z:${998 - index}`} src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
                     )
                 }
             </div>

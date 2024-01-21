@@ -441,7 +441,7 @@ export default function EditPartyClient({ locale, party }: any) {
                                                 tabIndex={0}
                                                 className="w:full cursor:pointer mb:30 bg:gray-20 bg:gray-96@light r:3 overflow:clip b:1|solid border-color:gray-40 border-color:gray-80@light">
                                                 <div className="rel w:full aspect-ratio:16/9 overflow:clip">
-                                                    <Image src={partyPreviewImageUrl ? partyPreviewImageUrl : defaultImage} fill sizes="100%" className="object-fit:cover" alt="preview" loading="eager" />
+                                                    <Image src={partyPreviewImageUrl || defaultImage} fill sizes="100%" className="object-fit:cover" alt="preview" loading="eager" />
                                                 </div>
                                                 <div className="px:16 mt:8 fg:gray-60 fg:gray-60@light white-space:nowrap overflow:clip text-overflow:ellipsis">{partyLink}</div>
                                                 <h1 className="f:24 px:16 mt:6 mb:8 white-space:nowrap overflow:clip text-overflow:ellipsis">{partyName}</h1>

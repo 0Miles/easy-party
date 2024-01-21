@@ -1,11 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { getDictionary } from '@/locales/locale'
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 export default function ImageSelector({ locale, className, onChange, defaultImage, placeholder, onPreviewChange }: any) {
-    const { t } = getDictionary(locale)
-    const [selectedImage, setSelectedImage] = useState(() => defaultImage) as any
+    const [selectedImage, setSelectedImage] = useState(() => defaultImage)
 
     const onDrop = useCallback((acceptedFiles: any[]) => {
         const file = acceptedFiles[0]
@@ -13,9 +11,9 @@ export default function ImageSelector({ locale, className, onChange, defaultImag
 
         reader.onload = (e) => {
             setSelectedImage(e.target?.result)
-            onPreviewChange && onPreviewChange(e.target?.result)
+            onPreviewChange?.(e.target?.result)
         }
-        onChange && onChange(file)
+        onChange?.(file)
 
         reader.readAsDataURL(file)
     }, [onChange, onPreviewChange])

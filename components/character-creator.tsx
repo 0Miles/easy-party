@@ -6,7 +6,7 @@ export default function CharacterCreator({ className, defaultName, defaultAvatar
     const [avatarFile, setAvatarFile] = useState<File>()
 
     useMemo(() => {
-        onChange && onChange({
+        onChange?.({
             name,
             avatarFile
         })

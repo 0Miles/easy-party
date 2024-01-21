@@ -25,8 +25,8 @@ export default function CalendarMonth({ month, availableDates }: any) {
             </div>
             <div className="grid grid-cols:7 grid-cols:1@<xs w:100% gap:4">
                 {
-                    days.map((day, index) =>
-                        <CalendarDay key={index} month={month} day={isSameMonth(day, month) && day} availableDates={availableDates} />
+                    days.map((day) =>
+                        <CalendarDay key={day.getTime()} month={month} day={isSameMonth(day, month) && day} availableDates={availableDates} />
                     )
                 }
             </div>

@@ -42,8 +42,8 @@ export default function CalendarResultItem({ day, dayString, freeParticipants, n
 
                 {
                     freeParticipants.map(
-                        (participant: any, index: number) =>
-                            <div key={index} className="flex gap:8 align-items:center m:8">
+                        (participant: any) =>
+                            <div key={participant.uid ?? participant.characterId} className="flex gap:8 align-items:center m:8">
                                 <CalendarAvatar className={`
                                         r:50% 36x36! ~margin-right|.2s
                                         transform-origin:center ~transform|.2s
@@ -61,8 +61,8 @@ export default function CalendarResultItem({ day, dayString, freeParticipants, n
             <div className="flex flex:1 flex-wrap:wrap mt:8 align-items:end opacity:.3">
                 {
                     notFreeParticipants.map(
-                        (participant: any, index: number) =>
-                            <div key={index} className="flex gap:8 align-items:center m:8">
+                        (participant: any) =>
+                            <div key={participant.uid ?? participant.characterId} className="flex gap:8 align-items:center m:8">
                                 <CalendarAvatar className="r:50% 36x36! ~margin-right|.2s" src={participant.avatarUrl} displayName={participant.displayName ?? ''} />
 
                                 <div className="hide@<sm">
