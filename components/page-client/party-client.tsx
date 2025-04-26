@@ -7,11 +7,13 @@ import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 import nProgress from 'nprogress'
 import CharacterSelector from '@/components/party/character-selector'
-import { createContext, useEffect, useMemo, useState } from 'react'
-import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
+import { createContext, useCallback, useEffect, useMemo, useState, useRef } from 'react'
+import { getParticipantsSnapshotByPartyId, updateParticipantDisplay } from '@/lib/firebase/firestore'
 import PartyInfoCard from '@/components/party/party-info-card'
 import CalendarResult from '@/components/party/calendar-result'
 import CharacterDisplay from '@/components/party/character-display'
+import { uploadImage } from '@/lib/firebase/storage'
+import { calculateArrayHash } from '@/utils/hash'
 
 export const PartyContext: any = createContext<any>(null)
 
@@ -23,6 +25,7 @@ export default function PartyClient({ locale, party }: any) {
     const [loading, setLoading] = useState<boolean>(true)
     const [myFreeDays, setMyFreeDays] = useState<string[]>([])
     const [participants, setParticipants] = useState<any[]>([])
+    const participantsHashRef = useRef<number | null>(null)
     const [updateTimeout, setUpdateTimeout] = useState<any>()
 
     const [mustHave, setMustHave] = useState<string[]>([])
@@ -33,27 +36,70 @@ export default function PartyClient({ locale, party }: any) {
     const [startDate, _setStartDate] = useState(new Date(party.startDate))
     const [endDate, _setEndDate] = useState(new Date(party.endDate))
 
+    const startDateRef = useRef(startDate)
+    const endDateRef = useRef(endDate)
+    const loadingRef = useRef(loading)
+    const selectedCharacterRef = useRef(selectedCharacter)
+    const userRef = useRef(user)
+
+    const updateSelectedCharacter = useCallback(() => {
+        if (selectedCharacter?.googleUser) {            
+            const existingParticipant = participants?.find(x => x.uid === user.uid)
+            if (selectedCharacter.avatarUrl !== existingParticipant?.avatarUrl || selectedCharacter.name !== existingParticipant?.displayName) {
+                setSelectedCharacter({
+                    googleUser: true,
+                    id: user.uid,
+                    avatarUrl: existingParticipant?.avatarUrl ?? user.photoURL,
+                    name: existingParticipant?.displayName ?? user.displayName
+                })
+            }
+        }
+    }, [participants, selectedCharacter, user])
+    
     useEffect(() => {
+        startDateRef.current = startDate;
+        endDateRef.current = endDate;
+        loadingRef.current = loading;
+        selectedCharacterRef.current = selectedCharacter;
+        userRef.current = user;
+    }, [startDate, endDate, loading, selectedCharacter, user])
+    
+    useEffect(() => {
+        if (!party.id) return
+        
         const unsubscribe = getParticipantsSnapshotByPartyId(
             party.id,
             (results) => {
-                results.forEach(participant => {
-                    participant.freeDays = participant.freeDays
+                const processedResults = results.map(participant => {
+                    const freeDays = participant.freeDays
                         .filter((freeDay: string) => {
-                            const date = new Date(freeDay)
-                            return date >= startDate && date <= endDate
+                            const date = new Date(freeDay);
+                            return date >= startDateRef.current && date <= endDateRef.current;
                         })
+                    
+                    return {
+                        ...participant,
+                        freeDays
+                    }
                 })
-
-                setParticipants(results ?? [])
-                if (loading && selectedCharacter) {
-                    setMyFreeDays((results ?? [])
-                        .find((x: any) =>
-                            selectedCharacter.googleUser && x.uid === user.uid
-                            || !selectedCharacter.googleUser && x.characterId === selectedCharacter.id
-                        )?.freeDays ?? [])
-                    setLoading(false)
-                    nProgress.done()
+                
+                const newHash = calculateArrayHash(processedResults)
+                
+                if (participantsHashRef.current === null || participantsHashRef.current !== newHash) {
+                    participantsHashRef.current = newHash
+                    setParticipants(processedResults)
+                    updateSelectedCharacter()
+                    if (loadingRef.current && selectedCharacterRef.current) {
+                        const currentUserFreeDays = processedResults
+                            .find((x: any) =>
+                                selectedCharacterRef.current.googleUser && x.uid === userRef.current?.uid
+                                || !selectedCharacterRef.current.googleUser && x.characterId === selectedCharacterRef.current.id
+                            )?.freeDays ?? []
+                            
+                        setMyFreeDays(currentUserFreeDays)
+                        setLoading(false);
+                        nProgress.done()
+                    }
                 }
             }
         )
@@ -61,23 +107,21 @@ export default function PartyClient({ locale, party }: any) {
         return () => {
             unsubscribe()
         }
-    }, [endDate, loading, party, selectedCharacter, startDate, user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [party.id, selectedCharacter])
 
     useEffect(() => {
         if (user === null) {
             setSelectedCharacter(null)
+        } else if (!!user && !party.characters?.length && !selectedCharacter) {
+            setSelectedCharacter({
+                googleUser: true,
+                id: user.uid,
+                avatarUrl: user.photoURL,
+                name: user.displayName
+            })
         }
-        if (!!user && !party.characters?.length) {
-            setSelectedCharacter(
-                {
-                    googleUser: true,
-                    id: user.uid,
-                    avatarUrl: user.photoURL,
-                    name: participants?.find(x => x.uid === user.uid)?.displayName ?? user.displayName
-                }
-            )
-        }
-    }, [user, party, participants])
+    }, [user, party.characters, participants, selectedCharacter])
 
     const selectCharacterHandle = (character: any) => {
         setSelectedCharacter(character)
@@ -87,6 +131,53 @@ export default function PartyClient({ locale, party }: any) {
     const changeCharacterHandle = () => {
         setSelectedCharacter(null)
         setLoading(true)
+    }
+    
+    const handleEditName = async (newName: string) => {
+        if (!selectedCharacter || !party.id) return
+        
+        nProgress.start()
+        try {
+            if (selectedCharacter.googleUser && user) {
+                await updateParticipantDisplay(party.id, user.uid, newName)
+                
+                setSelectedCharacter({
+                    ...selectedCharacter,
+                    name: newName
+                })
+            }
+        } catch (error) {
+            console.error("Update display name failed:", error)
+        } finally {
+            nProgress.done()
+        }
+    }
+    
+    const handleUpdateAvatar = async (file: File, previewUrl: string) => {
+        if (!selectedCharacter || !party.id) return
+        
+        nProgress.start()
+        try {
+            let avatarUrl = ''
+            if (file) {
+                avatarUrl = await uploadImage(party.id, file, ['avatars'])
+            }
+            
+            if (selectedCharacter.googleUser && user) {
+                await updateParticipantDisplay(party.id, user.uid, selectedCharacter.name, avatarUrl)
+            } else if (!selectedCharacter.googleUser) {
+                await updateParticipantDisplay(party.id, selectedCharacter.id, selectedCharacter.name, avatarUrl)
+            }
+            
+            setSelectedCharacter({
+                ...selectedCharacter,
+                avatarUrl: avatarUrl || previewUrl
+            })
+        } catch (error) {
+            console.error("Update avatar failed:", error)
+        } finally {
+            nProgress.done()
+        }
     }
 
     const contextValue = useMemo(() => ({
@@ -166,6 +257,9 @@ export default function PartyClient({ locale, party }: any) {
                                             locale={locale} 
                                             hasChangeButton={!!party.characters?.length} 
                                             onChangeCharacter={changeCharacterHandle} 
+                                            isCurrentUser={!!selectedCharacter?.googleUser && !!user}
+                                            onEditName={handleEditName}
+                                            onUpdateAvatar={handleUpdateAvatar}
                                         />
                                     }
                                 </div>

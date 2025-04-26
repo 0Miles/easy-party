@@ -2,16 +2,37 @@
 'use client'
 
 import { getDictionary } from '@/locales/locale'
+import EditableText from '@/components/editable-text'
+import ImageSelector from '@/components/image-selector'
+import { useState } from 'react'
 
 interface CharacterDisplayProps {
-    character: any;
-    locale: string;
-    hasChangeButton?: boolean;
-    onChangeCharacter?: () => void;
+    character: any
+    locale: string
+    hasChangeButton?: boolean
+    onChangeCharacter?: () => void
+    isCurrentUser?: boolean
+    onEditName?: (newName: string) => void | Promise<void>
+    onUpdateAvatar?: (file: File, previewUrl: string) => void | Promise<void>
 }
 
-export default function CharacterDisplay({ character, locale, hasChangeButton = true, onChangeCharacter }: CharacterDisplayProps) {
+export default function CharacterDisplay({ 
+    character, 
+    locale, 
+    hasChangeButton = true, 
+    onChangeCharacter,
+    isCurrentUser = false,
+    onEditName,
+    onUpdateAvatar
+}: CharacterDisplayProps) {
     const { t } = getDictionary(locale)
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
+    
+    const handleAvatarChange = (file: File) => {
+        if (onUpdateAvatar && file) {
+            onUpdateAvatar(file, avatarPreview || '')
+        }
+    }
 
     return (
         <div className="flex flex-wrap:wrap w:fit-content w:full@<sm">
@@ -27,10 +48,26 @@ export default function CharacterDisplay({ character, locale, hasChangeButton = 
                         `}>
                 <div className="flex align-items:center">
                     <div className="flex 36x36 r:50% flex:0|0|auto overflow:clip">
-                        <img className="w:full h:full object-fit:cover" src={character.avatarUrl} alt={character.name} referrerPolicy="no-referrer" />
+                        {isCurrentUser && onUpdateAvatar ? (
+                            <ImageSelector 
+                                locale={locale}
+                                className="w:36 h:36 r:50%"
+                                onChange={handleAvatarChange}
+                                defaultImage={character.avatarUrl}
+                                onPreviewChange={setAvatarPreview}
+                            />
+                        ) : (
+                            <img className="w:full h:full object-fit:cover" src={character.avatarUrl} alt={character.name} referrerPolicy="no-referrer" />
+                        )}
                     </div>
                     <div className="mx:8 f:18">
-                        {character.name}
+                        <EditableText 
+                            text={character.name}
+                            isEditable={isCurrentUser}
+                            onSave={onEditName}
+                            editButtonTitle={t('Edit name')}
+                            saveButtonTitle={t('Save')}
+                        />
                     </div>
                 </div>
                 {

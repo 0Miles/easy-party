@@ -150,3 +150,43 @@ export function getParticipantsSnapshotByPartyId(partyId: string, callback: (res
     })
     return unsubscribe
 }
+
+export async function updateParticipantDisplay(partyId: string, participantId: string, newDisplayName: string, avatarUrl?: string) {
+    try {
+        const participantRef = doc(db, `party/${partyId}/participant`, participantId)
+        
+        const docSnap = await getDoc(participantRef)
+        
+        if (!docSnap.exists()) {
+            const auth = getAuth()
+            const newParticipantData: any = {
+                displayName: newDisplayName,
+                freeDays: [],
+                timestamp: Timestamp.fromDate(new Date())
+            }
+
+            if (auth.currentUser && auth.currentUser.uid === participantId) {
+                newParticipantData.uid = participantId
+                newParticipantData.avatarUrl = avatarUrl || auth.currentUser.photoURL;
+            } else {
+                throw new Error('User is not logged in')
+            }
+            
+            await addDoc(collection(db, `party/${partyId}/participant`), newParticipantData)
+        } else {
+            await runTransaction(db, transaction => {
+                transaction.update(participantRef, { 
+                    displayName: newDisplayName,
+                    avatarUrl: avatarUrl || docSnap.data()?.avatarUrl,
+                    timestamp: Timestamp.fromDate(new Date())
+                })
+                return Promise.resolve()
+            })
+        }
+        
+        return true
+    } catch (error) {
+        console.error("Update participant display name and avatar failed:", error)
+        return false
+    }
+}
