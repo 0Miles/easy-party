@@ -138,7 +138,7 @@ export default function PartyClient({ locale, party }: any) {
         
         nProgress.start()
         try {
-            if (selectedCharacter.googleUser && user) {
+            if (selectedCharacter.googleUser && user && selectedCharacter.id === user.uid) {
                 await updateParticipantDisplay(party.id, user.uid, newName)
                 
                 setSelectedCharacter({
@@ -163,16 +163,14 @@ export default function PartyClient({ locale, party }: any) {
                 avatarUrl = await uploadImage(party.id, file, ['avatars'])
             }
             
-            if (selectedCharacter.googleUser && user) {
+            if (selectedCharacter.googleUser && user && selectedCharacter.id === user.uid) {
                 await updateParticipantDisplay(party.id, user.uid, selectedCharacter.name, avatarUrl)
-            } else if (!selectedCharacter.googleUser) {
-                await updateParticipantDisplay(party.id, selectedCharacter.id, selectedCharacter.name, avatarUrl)
+                setSelectedCharacter({
+                    ...selectedCharacter,
+                    avatarUrl: avatarUrl || previewUrl
+                })
             }
             
-            setSelectedCharacter({
-                ...selectedCharacter,
-                avatarUrl: avatarUrl || previewUrl
-            })
         } catch (error) {
             console.error("Update avatar failed:", error)
         } finally {
