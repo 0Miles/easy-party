@@ -81,14 +81,25 @@ export async function updateParticipantToParty(partyId: string, participantData:
 
         const auth = getAuth()
         if (auth.currentUser) {
-            const newParticipantDocRef = doc(collection(db, `party/${partyId}/participant`), auth.currentUser.uid)
-            participantData.uid = auth.currentUser.uid
-            participantData.avatarUrl = auth.currentUser.photoURL
-            participantData.displayName = auth.currentUser.displayName
+            const participantDocRef = doc(collection(db, `party/${partyId}/participant`), auth.currentUser.uid)
+            const participantDoc = await getDoc(participantDocRef)
 
-            await runTransaction(db, transaction =>
-                updateParticipant(transaction, newParticipantDocRef, participantData)
-            )
+            participantData.timestamp = Timestamp.fromDate(new Date())
+
+            if (!participantDoc.exists()) {
+                participantData.uid = auth.currentUser.uid
+                participantData.avatarUrl = auth.currentUser.photoURL
+                participantData.displayName = auth.currentUser.displayName
+                await runTransaction(db, transaction => {
+                    transaction.set(participantDocRef, participantData)
+                    return Promise.resolve()
+                })
+            } else {
+                await runTransaction(db, transaction => {
+                    transaction.update(participantDocRef, participantData)
+                    return Promise.resolve()
+                })
+            }
         } else {
             throw new Error('User is not logged in')
         }
@@ -99,22 +110,15 @@ export async function updateParticipantToParty(partyId: string, participantData:
         participantData.displayName = character.name
 
         await runTransaction(db, transaction =>
-            updateParticipant(transaction, newParticipantDocRef, participantData)
+            {
+                transaction.set(newParticipantDocRef, {
+                    ...participantData,
+                    timestamp: Timestamp.fromDate(new Date()),
+                })
+                return Promise.resolve()
+            }
         )
     }
-
-}
-
-const updateParticipant = async (
-    transaction: Transaction,
-    newParticipantDocRef: DocumentReference,
-    participantData: any
-) => {
-
-    transaction.set(newParticipantDocRef, {
-        ...participantData,
-        timestamp: Timestamp.fromDate(new Date()),
-    })
 }
 
 export async function getParticipantsByPartyId(partyId: string) {
@@ -152,43 +156,45 @@ export function getParticipantsSnapshotByPartyId(partyId: string, callback: (res
     return unsubscribe
 }
 
-export async function updateParticipantDisplay(partyId: string, userUid: string, newDisplayName: string, avatarUrl?: string) {
+export async function updateParticipantDisplay(partyId: string, newDisplayName: string, avatarUrl?: string) {
+    const auth = getAuth()
+    if (!auth.currentUser) {
+        throw new Error('User is not logged in')
+    }
+
     try {
-        const participantsCollection = collection(db, `party/${partyId}/participant`)
-        const participantQuery = query(participantsCollection, where("uid", "==", userUid))
-        const querySnapshot = await getDocs(participantQuery)
-        
-        if (querySnapshot.empty) {
-            const auth = getAuth()
+        const participantDocRef = doc(collection(db, `party/${partyId}/participant`), auth.currentUser.uid)
+        const participantDoc = await getDoc(participantDocRef)
+
+        if (!participantDoc.exists()) {
+            
             const newParticipantData: any = {
-                uid: userUid,
+                uid: auth.currentUser.uid,
                 displayName: newDisplayName,
+                avatarUrl : avatarUrl || auth.currentUser.photoURL,
                 freeDays: [],
                 timestamp: Timestamp.fromDate(new Date())
             }
-
-            if (auth.currentUser && auth.currentUser.uid === userUid) {
-                newParticipantData.avatarUrl = avatarUrl || auth.currentUser.photoURL
-            } else {
-                throw new Error('User is not logged in')
-            }
             
-            await addDoc(participantsCollection, newParticipantData)
-        } else {
-            const participantDoc = querySnapshot.docs[0]
-            const participantRef = doc(db, `party/${partyId}/participant`, participantDoc.id)
             await runTransaction(db, transaction => {
-                const participantData = participantDoc.data()
-                transaction.update(participantRef, { 
-                    displayName: newDisplayName,
-                    avatarUrl: avatarUrl || participantData.avatarUrl,
-                    timestamp: Timestamp.fromDate(new Date())
-                });
+                transaction.set(participantDocRef, newParticipantData)
+                return Promise.resolve()
+            })
+        } else {
+            const participantData = participantDoc.data()
+            const updateData = {
+                displayName: newDisplayName,
+                avatarUrl: avatarUrl || participantData.avatarUrl,
+                timestamp: Timestamp.fromDate(new Date())
+            }
+
+            await runTransaction(db, transaction => {
+                transaction.update(participantDocRef, updateData)
                 return Promise.resolve()
             })
         }
         
-        return true;
+        return true
     } catch (error) {
         console.error("Update participant display name and avatar failed:", error)
         return false

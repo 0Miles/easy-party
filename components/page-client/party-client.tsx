@@ -139,7 +139,7 @@ export default function PartyClient({ locale, party }: any) {
         nProgress.start()
         try {
             if (selectedCharacter.googleUser && user && selectedCharacter.id === user.uid) {
-                await updateParticipantDisplay(party.id, user.uid, newName)
+                await updateParticipantDisplay(party.id, newName)
                 
                 setSelectedCharacter({
                     ...selectedCharacter,
@@ -164,7 +164,7 @@ export default function PartyClient({ locale, party }: any) {
             }
             
             if (selectedCharacter.googleUser && user && selectedCharacter.id === user.uid) {
-                await updateParticipantDisplay(party.id, user.uid, selectedCharacter.name, avatarUrl)
+                await updateParticipantDisplay(party.id, selectedCharacter.name, avatarUrl)
                 setSelectedCharacter({
                     ...selectedCharacter,
                     avatarUrl: avatarUrl || previewUrl
