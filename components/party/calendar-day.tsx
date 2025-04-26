@@ -4,7 +4,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { format, startOfDay} from 'date-fns'
 import { useUserSession } from '@/contexts/user-session'
-import { PartyContext } from './page-client/party-client'
+import { PartyContext } from '@/components/page-client/party-client'
 import { updateParticipantToParty } from '@/lib/firebase/firestore'
 import CalendarAvatar from './calendar-avatar'
 

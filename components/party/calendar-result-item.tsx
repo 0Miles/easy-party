@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useContext, useEffect, useState } from 'react'
 import { format } from 'date-fns'
-import { PartyContext } from './page-client/party-client'
+import { PartyContext } from '@/components/page-client/party-client'
 import CalendarAvatar from './calendar-avatar'
 
 export default function CalendarResultItem({ day, dayString, freeParticipants, notFreeParticipants }: any) {

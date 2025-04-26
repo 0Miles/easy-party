@@ -1,16 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import Calendar from '@/components/calendar'
+import Calendar from '@/components/party/calendar'
 import PleaseSignIn from '@/components/please-sign-in'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 import nProgress from 'nprogress'
-import CharacterSelector from '../character-selector'
+import CharacterSelector from '@/components/party/character-selector'
 import { createContext, useEffect, useMemo, useState } from 'react'
 import { getParticipantsSnapshotByPartyId } from '@/lib/firebase/firestore'
-import PartyInfoCard from '../party-info-card'
-import CalendarResult from '../calendar-result'
+import PartyInfoCard from '@/components/party/party-info-card'
+import CalendarResult from '@/components/party/calendar-result'
+import CharacterDisplay from '@/components/party/character-display'
 
 export const PartyContext: any = createContext<any>(null)
 
@@ -72,11 +73,11 @@ export default function PartyClient({ locale, party }: any) {
                     googleUser: true,
                     id: user.uid,
                     avatarUrl: user.photoURL,
-                    name: user.displayName
+                    name: participants?.find(x => x.uid === user.uid)?.displayName ?? user.displayName
                 }
             )
         }
-    }, [user, party])
+    }, [user, party, participants])
 
     const selectCharacterHandle = (character: any) => {
         setSelectedCharacter(character)
@@ -160,44 +161,12 @@ export default function PartyClient({ locale, party }: any) {
                                     }
 
                                     {
-                                        !!party.characters?.length &&
-                                        <div className="flex flex-wrap:wrap w:fit-content w:full@<sm">
-                                            <div className="my:16 mr:10">
-                                                {t('Currently logged in character')}
-                                            </div>
-                                            <div className={`
-                                                            p:8|16
-                                                            bg:gray-10@<sm bg:gray-90@light@<sm
-                                                            flex w:full@<sm align-items:center @transition-up|.3s
-                                                            r:3 user-select:none overflow:clip
-                                                            justify-content:space-between@<sm
-                                                        `}>
-                                                <div className="flex align-items:center">
-                                                    <div className="flex 36x36 r:50% flex:0|0|auto overflow:clip">
-                                                        <img className="w:full h:full object-fit:cover" src={selectedCharacter.avatarUrl} alt={selectedCharacter.name} referrerPolicy="no-referrer" />
-                                                    </div>
-                                                    <div className="mx:8 f:18">
-                                                        {selectedCharacter.name}
-                                                    </div>
-                                                </div>
-                                                <div className="
-                                                            p:4|8 p:8|16@<sm r:3 f:12 f:16@<sm
-                                                            bg:gray-20 bg:gray-86@light cursor:pointer user-select:none overflow:clip
-                                                            ~background|.3s|ease bg:gray-30:hover bg:gray-10:active bg:gray-80:hover@light bg:gray-96:active@light
-                                                            "
-                                                    onClick={changeCharacterHandle}
-                                                    onKeyDown={(e) => {
-                                                        if (e.key === ' ' || e.keyCode === 32) {
-                                                            e.preventDefault()
-                                                            changeCharacterHandle()
-                                                        }
-                                                    }}
-                                                    tabIndex={0}
-                                                >
-                                                    {t('Change')}
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <CharacterDisplay 
+                                            character={selectedCharacter} 
+                                            locale={locale} 
+                                            hasChangeButton={!!party.characters?.length} 
+                                            onChangeCharacter={changeCharacterHandle} 
+                                        />
                                     }
                                 </div>
 

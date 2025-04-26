@@ -1,7 +1,7 @@
 'use client'
 
 /* eslint-disable @next/next/no-img-element */
-import SignInButton from './sign-in-button'
+import SignInButton from '../sign-in-button'
 import { useUserSession } from '@/contexts/user-session'
 import { getDictionary } from '@/locales/locale'
 

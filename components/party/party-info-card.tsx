@@ -10,7 +10,7 @@ import { getDictionary, formatString } from '@/locales/locale'
 import defaultImage from '@/public/images/default.png'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import CalendarAvatar from './calendar-avatar'
-import { PartyContext } from './page-client/party-client'
+import { PartyContext } from '@/components/page-client/party-client'
 import { startOfDay } from 'date-fns'
 
 export default function PartyInfoCard({ locale }: any) {

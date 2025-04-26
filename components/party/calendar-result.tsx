@@ -3,7 +3,7 @@
 import { eachDayOfInterval, format, startOfDay } from 'date-fns'
 import CalendarResultItem from './calendar-result-item'
 import { useContext } from 'react'
-import { PartyContext } from './page-client/party-client'
+import { PartyContext } from '@/components/page-client/party-client'
 
 export default function CalendarResult() {
     const { participants, startDate, endDate } = useContext<any>(PartyContext)
