@@ -111,7 +111,7 @@ export default function PartyClient({ locale, party }: any) {
     }, [party.id, selectedCharacter])
 
     useEffect(() => {
-        if (user === null) {
+        if (user === null && !party.characters?.length) {
             setSelectedCharacter(null)
         } else if (!!user && !party.characters?.length && !selectedCharacter) {
             setSelectedCharacter({
