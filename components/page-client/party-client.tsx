@@ -89,6 +89,7 @@ export default function PartyClient({ locale, party }: any) {
                     participantsHashRef.current = newHash
                     setParticipants(processedResults)
                     updateSelectedCharacter()
+                    
                     if (loadingRef.current && selectedCharacterRef.current) {
                         const currentUserFreeDays = processedResults
                             .find((x: any) =>
@@ -97,9 +98,12 @@ export default function PartyClient({ locale, party }: any) {
                             )?.freeDays ?? []
                             
                         setMyFreeDays(currentUserFreeDays)
-                        setLoading(false);
-                        nProgress.done()
                     }
+                }
+                
+                if (loadingRef.current && selectedCharacterRef.current) {
+                    setLoading(false)
+                    nProgress.done()
                 }
             }
         )
